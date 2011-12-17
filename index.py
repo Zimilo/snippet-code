@@ -1,10 +1,7 @@
+#!/usr/bin/env python
+#coding:utf-8
 import web
-from config.Router import *
+from config.Runtime import *
 
-web.config.debug = True
-
-render = web.template.render('templates/')
-app = web.application(Router(), globals())
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run()

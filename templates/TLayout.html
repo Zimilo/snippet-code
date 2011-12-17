@@ -1,0 +1,56 @@
+$def with(content)
+<!doctype html>
+<html>
+<head>
+<title>代码片段|贴出你的代码|秀起来</title>
+<link rel="stylesheet" type="text/css" href="/static/code.css" />
+</head>
+<body>
+<div id="admin-bar">
+  <div class="quicklinks">
+    <ul>
+      <li id="admin-bar-my-account-with-avatar">
+	<a href="/user/profile">
+	  <img src="/static/images/default_avatar.jpeg" width="16" height="16" />
+	  <span>Guest</span>
+	</a>
+      </li>
+      <li>
+	<a href="/post/new">
+	  <span>新建代码片段</span>
+	</a>
+      </li>
+      <li>
+	<a href="/lab/online">
+	  <span>在线编程</span>
+	</a>
+      </li>
+      <li>
+	<a href="/help/index">
+	  <span>帮助文档</span>
+	</a>
+      </li>
+    </ul>
+  </div>
+  <div id="admin-bar-search">
+    <form action="/search" method="post">
+      <input class="admin-bar-input" name="keywords" type="text" maxlength="150" />
+      <input type="submit" class="admin-bar-button" value="代码搜索" />
+    </form>
+  </div>
+</div>
+
+<div id="page">
+  <div id="page-tip">
+    <span>您当前尚未登陆，不能进行修改或删除等操作，立即 <a href="/user/login">登陆</a> 或 <a href="/user/reg">注册</a> 。</span>
+  </div>
+  <div id="page-main">
+    $:content
+  </div>
+  <div id="page-footer">
+    Copyright &copy; 2011 <a href="http://www.snippet-code.com">snippet-code.com</a><br />
+    <a href="http://www.code-trick.com">code-trick.com</a> 旗下网站 基于 <a href="http://webpy.org">web.py</a> 开发
+  </div>
+</div>
+</body>
+</html>

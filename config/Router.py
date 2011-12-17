@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-from controllers import *
-
 def Router():
-    urls = [['/', 'CIndex.Index'],
-            ['/user/reg', 'CUser.Reg'],
-            ['/user/login', 'CUser.Login'],
-            ['/user/logout', 'CUser.Logout'],
-            ['/(*)', 'CPager.CPager']
-            ]
+    urls = [
+        ['/', 'CIndex.Index'],
+        ['/user/reg', 'CUser.Reg'],
+        ['/user/login', 'CUser.Login'],
+        ['/user/logout', 'CUser.Logout'],
+        #['/(*)', 'CPager.CPager']
+        ]
 
     route_urls = []
 
