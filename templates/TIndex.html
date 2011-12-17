@@ -1,5 +1,6 @@
+$def with(langs)
 <div>
-  <form method="post">
+  <form method="post" action="/post/add">
     <fieldset>
       <legend>代码设置</legend>
       <div id="code-setting">
@@ -8,11 +9,10 @@
 	    <td class="code-setting-left-td"><span class="code-setting-field">语言类型</span></td>
 	    <td>
 	      <span class="code-setting-field-value">
-		<select>
-		  <option>纯文本</option>
-		  <option>PHP</option>
-		  <option>Python</option>
-		  <option>C/C++</option>
+		<select name="code_language_type">
+		  $for lang in langs:
+		    <option value="$lang[0]">$lang[2]</option>
+
 		</select>
 	      </span>
 	    </td>
@@ -23,7 +23,7 @@
     <fieldset>
       <legend>代码正文</legend>
       <div id="code-body">
-	<textarea cols="50" rows="15"></textarea>
+	<textarea cols="50" rows="15" name="code_content"></textarea>
       </div>
     </fieldset>
     <fieldset>
@@ -34,17 +34,17 @@
 	    <td class="code-setting-left-td"><span class="code-setting-field">标题</span></td>
 	    <td>
 	      <span class="code-setting-field-value">
-		<input class="code-setting-input" type="text" value="未命名代码片段" />
+		<input name="code_title" class="code-setting-input" type="text" placeholder="未命名代码片段" />
 	      </span>
-	    </td>
+	    </tdp>
 	  </tr>
 	  <tr>
 	    <td class="code-setting-left-td"><span class="code-setting-field">查看权限</span></td>
 	    <td>
 	      <span class="code-setting-field-value">
-		<select>
-		  <option>完全公开</option>
-		  <option>仅自己可见</option>
+		<select name="code_priviledge">
+		  <option value="1">完全公开</option>
+		  <option value="0">仅自己可见</option>
 		</select>
 	      </span>
 	    </td>

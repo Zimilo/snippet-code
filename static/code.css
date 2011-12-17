@@ -201,3 +201,40 @@ legend{
     height: auto;
     border-image: initial;
 }
+#msg{
+    line-height:28px;
+}
+.msg-error{
+    font-weight:bold;
+    color:#C03;
+}
+#post-title{
+    font-size:16px;
+    font-weight:bold;
+}
+#post-meta{
+    color:gray;
+    font-size:11px;
+}
+#post-control a{
+    margin-right:10px;
+    border-radius:3px;
+    color:#666;
+    text-decoration:none;
+    font-size:12px;
+    background:#EEE;
+    font-weight:300;
+    line-height:24px;
+    display:block;
+    float:left;
+    height:24px;
+    text-align:center;
+    padding:1px 7px 1px 7px;
+}
+#post-content{
+    margin-top:50px;
+    margin-bottom:30px;
+}
+.code-format{
+
+}

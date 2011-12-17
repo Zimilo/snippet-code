@@ -10,13 +10,18 @@ $def with(content)
   <div class="quicklinks">
     <ul>
       <li id="admin-bar-my-account-with-avatar">
-	<a href="/user/profile">
-	  <img src="/static/images/default_avatar.jpeg" width="16" height="16" />
-	  <span>Guest</span>
+	
+	$if ctx['UserID'] != -1:
+	  <a href="/user/profile">
+	$else:
+	  <a href="/user/login">
+        
+	  <img src="/static/images/default_avatar.jpeg" width="16" height="16" />  
+	  <span>$ctx['UserName']</span>
 	</a>
       </li>
       <li>
-	<a href="/post/new">
+	<a href="/post/add">
 	  <span>新建代码片段</span>
 	</a>
       </li>
@@ -27,29 +32,36 @@ $def with(content)
       </li>
       <li>
 	<a href="/help/index">
-	  <span>帮助文档</span>
+	  <span>帮助</span>
 	</a>
       </li>
+      $if client.fullpath != '/':
+        <li>
+	  <a href="/">
+	    <span>返回首页</span>
+	  </a>
+	</li>
     </ul>
   </div>
   <div id="admin-bar-search">
     <form action="/search" method="post">
       <input class="admin-bar-input" name="keywords" type="text" maxlength="150" />
-      <input type="submit" class="admin-bar-button" value="代码搜索" />
+      <input type="submit" class="admin-bar-button" value="搜索" />
     </form>
   </div>
 </div>
 
 <div id="page">
   <div id="page-tip">
-    <span>您当前尚未登陆，不能进行修改或删除等操作，立即 <a href="/user/login">登陆</a> 或 <a href="/user/reg">注册</a> 。</span>
+    <span>您当前尚未登陆，不能进行修改、删除、评论等操作，立即 <a href="/user/login">登陆</a> 或 <a href="/user/reg">注册</a> 。</span>
   </div>
   <div id="page-main">
     $:content
   </div>
   <div id="page-footer">
     Copyright &copy; 2011 <a href="http://www.snippet-code.com">snippet-code.com</a><br />
-    <a href="http://www.code-trick.com">code-trick.com</a> 旗下网站 基于 <a href="http://webpy.org">web.py</a> 开发
+    <a href="http://www.code-trick.com">code-trick.com</a> 旗下网站 基于 <a href="http://webpy.org">web.py</a> 开发<br />
+    <a target="_blank" href="https://github.com/Zimilo/snippet-code">阅读本项目的源代码</a>
   </div>
 </div>
 </body>

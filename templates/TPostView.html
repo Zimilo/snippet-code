@@ -1,0 +1,16 @@
+$def with (post)
+<div>
+  <div id="post-title">
+    $post['title']
+  </div>
+  <div id="post-meta">
+    本条目由 <a href="/user/profile">$post['user']['name']</a> 在 $post['publish_time'] 发布 最后更新 $post['last_edit_time']
+    语言类型 <a href="/search/lang_type=$post['language_type']">$post['language_type']</a> 
+  </div>
+  <div id="post-control">
+    <a href="/post/genimg/$post['id']">生成图片</a><a href="/post/edit/$post['id']">编辑</a> <a href="/post/del/$post['id']">删除</a>
+  </div>
+  <div id="post-content">
+    <pre lang="$post['language_type']" class="code-format">$post['content']</pre>
+  </div>
+</div>
