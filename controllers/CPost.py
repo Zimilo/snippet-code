@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 #coding:utf-8
+import time
 from config.Runtime import *
 from config.Globals import *
 from models import MPost
 from models.MLanguage import MLanguage
-import time
+from models.MMessage import MMessage
+
 
 class PostAdd:
     def GET(self):
@@ -13,7 +15,7 @@ class PostAdd:
     def POST(self):
         interval = int(time.time()) - session['Status']['LastPublishTime']
         if interval < GLOBAL_DEFAULT_POST_PUBLISH_INTERVAL:
-            return render.TMessage("<span class='msg-error'>写的也忑快了吧，慢点儿提交吧，请 %d 秒之后重新尝试</span><br /><a href='javascript:history.go(-1);'>返回之前的页面</a>" % (GLOBAL_DEFAULT_POST_PUBLISH_INTERVAL - interval))
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "写的也忑快了吧，慢点儿提交吧，请 %d 秒之后重新尝试" % (GLOBAL_DEFAULT_POST_PUBLISH_INTERVAL - interval), [['javascript:history.go(-1)', '返回之前的页面']]))
             
         code_title = web.input()['code_title'].strip()
         code_priviledge = int(web.input()['code_priviledge'].strip())
@@ -21,13 +23,13 @@ class PostAdd:
         code_language_type = int(web.input()['code_language_type'].strip())
         
         if session['UserID'] == -1 and code_priviledge == GLOBAL_PRIVILEDGE_PRIVATE:
-            return render.TMessage("<span class='msg-error'>匿名用户不允许将代码设置为仅自己可见状态</span><br /><a href='javascript:history.go(-1);'>返回之前的页面</a>")
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "匿名用户不允许将代码设置为仅自己可见状态", [['javascript:history.go(-1)', '返回之前的页面']]))
 
         if not len(code_content):
-            return render.TMessage("<span class='msg-error'>外面PM2.5这么严重, 宅在家里至少写点代码再提交吧</span><br /><a href='javascript:history.go(-1);'>返回之前的页面</a>")
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "外面PM2.5这么严重, 宅在家里至少写点代码再提交吧", [['javascript:history.go(-1)', '返回之前的页面']]))
 
         if not MLanguage.IsSupportLang(code_language_type):
-            return render.TMessage("<span class='msg-error'>未知的语言类型</span><br /><a href='javascript:history.go(-1);'>返回之前的页面</a>")
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "未知的语言类型", [['javascript:history.go(-1)', '返回之前的页面']]))
 
         if not len(code_title):
             code_title = GLOBAL_DEFAULT_POST_TITLE
@@ -44,15 +46,15 @@ class PostAdd:
 
         r = MPost.Post.Insert2DB(post)
         if r['Status'] == -1:
-            return render.TMessage("<span class='msg-error'>操作失败: [" + r["ErrorMsg"]  + "]。请修正错误后重新尝试。</span><br /><a href='javascript:history.go(-1)'>返回之前的页面</a>")
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "操作失败: [" + r['ErrorMsg'] + "]。", [['javascript:history.go(-1)', '返回之前的页面']]))
 
         #更新一些状态
         session['Status']['LastPublishTime'] = int(time.time())
 
         short_url = "http://snippet-code.com/" + r['link']
-        msg = "<div style='margin-top:15px;'>快使用该链接与大家分享代码吧<input type='text' class='shorturl-input' value='" + short_url + "' /></div>"
+        msg = "<div style='margin-top:15px;'>快使用该链接与大家分享代码吧<input type='text' onclick='javascript:this.select()' class='shorturl-input' value='" + short_url + "' /></div>"
         msg += "<div style='margin-top:5px;'>"
-        msg += "您还可以执行以下操作" 
+        msg += "还可以执行以下操作:" 
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
         msg += "<a class='button-a' href='/post/view/"+ str(r['post_id'])  + "' target='_blank'>查看</a>"
@@ -62,6 +64,7 @@ class PostAdd:
             msg += "<a class='button-a' href='/post/del/"+ str(r['post_id'])  + "' target='_blank'>删除</a>"
         msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
         msg += "</div>"
+
         return render.TMessage("<span class='msg-success'>发布成功啦.</span><br />" + msg)
 
 

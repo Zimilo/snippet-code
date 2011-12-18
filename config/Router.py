@@ -7,11 +7,13 @@ def Router():
         ['/user/reg',         'CUser.UserReg'],
         ['/user/login',       'CUser.UserLogin'],
         ['/user/logout',      'CUser.UserLogout'],
+        ['/user/profile/(.*)','CUser.UserProfile'],
         ['/post/add',         'CPost.PostAdd'],
         ['/post/edit',        'CPost.PostEdit'],
         ['/post/del',         'CPost.PostDel'],
+        ['/post/my',          'CPost.PostList'],
         ['/post/genimg/(.*)', 'CPost.PostGenImage'],
-        ['/post/view/(.*)',        'CPost.PostView'],
+        ['/post/view/(.*)',   'CPost.PostView'],
         #['/(*)', 'CPager.CPager']
         ]
 

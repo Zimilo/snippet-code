@@ -4,7 +4,7 @@ CREATE TABLE users (
  password VARCHAR(255),
  nickname VARCHAR(32),
  reg_time INTEGER
-) ENGINE=MyISAM DEFAULT CHATSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE posts (
  id INT PRIMARY KEY AUTO_INCREMENT,
@@ -16,9 +16,4 @@ CREATE TABLE posts (
  content VARCHAR(50000),
  publish_time INTEGER,
  last_edit_time INTEGER
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE languages (
-  lang_id INTEGER,
-  lang_name VARCHAR(100)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

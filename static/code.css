@@ -158,7 +158,7 @@ legend{
     height:300px;
     background:#F8F8F8;
 }
-#code-setting, #code-publish {
+#code-setting, #code-publish, #user-panel {
     border:1px solid #DDD;
     background:#F8F8F8;
     padding:10px 10px 10px 10px;
@@ -182,7 +182,7 @@ legend{
     padding-left:3px;
     font-size:11px;
 }
-.code-setting-submit {
+.code-setting-submit, .user-panel-submit {
     font-weight:bold;
     font-size:11px;
     color: #444;
@@ -271,4 +271,24 @@ legend{
     text-align:center;
     float:left;
     padding:1px 7px 1px 7px;
+}
+#user-panel {
+    
+}
+.user-panel-left-td{
+    text-align:right;
+    padding:5px 0 5px 0;
+    height:28px;
+    line-height:28px;
+}
+.user-panel-field-value {
+    margin-left:15px;
+}
+.user-panel-input{
+    outline:none;
+    border:1px solid #DDD;
+    width:250px;
+    height:22px;
+    padding-left:3px;
+    font-size:11px;
 }

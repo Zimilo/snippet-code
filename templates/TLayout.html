@@ -10,29 +10,37 @@ $def with(content)
   <div class="quicklinks">
     <ul>
       <li id="admin-bar-my-account-with-avatar">
-	
 	$if ctx['UserID'] != -1:
-	  <a href="/user/profile">
+	  <a href="/user/profile/$ctx['UserID']">
 	$else:
 	  <a href="/user/login">
-        
-	  <img src="/static/images/default_avatar.jpeg" width="16" height="16" />  
-	  <span>$ctx['UserName']</span>
+	<img src="/static/images/default_avatar.jpeg" width="16" height="16" />  
+	<span>$ctx['UserName']</span>
 	</a>
       </li>
+      $if ctx['UserID'] != -1:
+        <li>
+	  <a href="/user/logout">
+	    <span>退出</span>
+	  </a>
+	</li>
+      $else:
+	<li>
+	  <a href="/user/login">
+	    <span>登陆</span>
+	  </a>
+	</li>
+	
+
+       $if ctx['UserID'] != -1:
+	<li>
+	  <a href="/post/my">
+	    <span>我的代码片段</span>
+	  </a>
+	</li>
       <li>
 	<a href="/post/add">
 	  <span>新建代码片段</span>
-	</a>
-      </li>
-      <li>
-	<a href="/lab/online">
-	  <span>在线编程</span>
-	</a>
-      </li>
-      <li>
-	<a href="/help/index">
-	  <span>帮助</span>
 	</a>
       </li>
       $if client.fullpath != '/':
@@ -52,8 +60,12 @@ $def with(content)
 </div>
 
 <div id="page">
-  <div id="page-tip">
-    <span>您当前尚未登陆，不能进行修改、删除、评论、评注代码等操作，立即 <a href="/user/login">登陆</a> 或 <a href="/user/reg">注册</a> 。</span>
+  <div id="page-tip"
+       $if ctx['UserID'] != -1:
+         style='display:none'
+       >
+    $if ctx['UserID'] == -1:
+      <span>您当前尚未登陆，不能进行修改、删除、评论、评注代码等操作，立即 <a href="/user/login">登陆</a> 或 <a href="/user/reg">注册</a> 。</span>
   </div>
   <div id="page-main">
     $:content
