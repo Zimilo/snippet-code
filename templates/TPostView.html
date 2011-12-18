@@ -4,11 +4,23 @@ $def with (post)
     $post['title']
   </div>
   <div id="post-meta">
-    本条目由 <a href="/user/profile">$post['user']['name']</a> 在 $post['publish_time'] 发布 最后更新 $post['last_edit_time']
-    语言类型 <a href="/search/lang_type=$post['language_type']">$post['language_type']</a> 
+    本条目由 
+      $if ctx['UserID'] == -1:
+        <a href="/user/login">
+          Guest
+	</a>
+      $else:
+        <a href="/user/profile">
+	  $post['User']['Name']
+	</a>
+      在 $post['publish_time'] 发布 最后更新 $post['last_edit_time']
+    语言类型 <a href="/search/lang=$post['lang']">$post['lang']</a> 
   </div>
   <div id="post-control">
-    <a href="/post/genimg/$post['id']">生成图片</a><a href="/post/edit/$post['id']">编辑</a> <a href="/post/del/$post['id']">删除</a>
+    <a href="/post/genimg/$post['id']">生成图片</a>
+    $if ctx["UserID"] != -1:
+      <a href="/post/edit/$post['id']">编辑</a>
+      <a href="/post/del/$post['id']">删除</a>
   </div>
   <div id="post-content">
     <pre lang="$post['language_type']" class="code-format">$post['content']</pre>

@@ -3,15 +3,15 @@
 
 def Router():
     urls = [
-        ['/', 'CIndex.Index'],
-        ['/user/reg', 'CUser.UserReg'],
-        ['/user/login', 'CUser.UserLogin'],
-        ['/user/logout', 'CUser.UserLogout'],
-        ['/post/add', 'CPost.PostAdd'],
-        ['/post/edit', 'CPost.PostEdit'],
-        ['/post/del', 'CPost.PostDel'],
+        ['/',                 'CIndex.Index'],
+        ['/user/reg',         'CUser.UserReg'],
+        ['/user/login',       'CUser.UserLogin'],
+        ['/user/logout',      'CUser.UserLogout'],
+        ['/post/add',         'CPost.PostAdd'],
+        ['/post/edit',        'CPost.PostEdit'],
+        ['/post/del',         'CPost.PostDel'],
         ['/post/genimg/(.*)', 'CPost.PostGenImage'],
-        ['/post/(.*)', 'CPost.PostView'],
+        ['/post/view/(.*)',        'CPost.PostView'],
         #['/(*)', 'CPager.CPager']
         ]
 
