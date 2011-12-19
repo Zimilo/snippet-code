@@ -11,7 +11,10 @@ def Router():
         ['/post/add',         'CPost.PostAdd'],
         ['/post/edit',        'CPost.PostEdit'],
         ['/post/del',         'CPost.PostDel'],
-        ['/post/my',          'CPost.PostList'],
+        
+        ['/post/my',          'CPost.PostList'], #设置默认列表分页
+        ['/post/my/(\d+)',    'CPost.PostList'],
+
         ['/post/genimg/(.*)', 'CPost.PostGenImage'],
         ['/post/view/(.*)',   'CPost.PostView'],
         #['/(*)', 'CPager.CPager']

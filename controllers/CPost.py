@@ -57,12 +57,13 @@ class PostAdd:
         msg += "还可以执行以下操作:" 
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
-        msg += "<a class='button-a' href='/post/view/"+ str(r['post_id'])  + "' target='_blank'>查看</a>"
-        msg += "<a class='button-a' href='/post/genimg/"+ str(r['post_id'])  + "' target='_blank'>生成图片</a>"
+        msg += "<a class='button-a' href='/post/view/"+ str(r['post_id'])  + "'>查看</a>"
+        msg += "<a class='button-a' href='/post/genimg/"+ str(r['post_id'])  + "'>生成图片</a>"
         if session['UserID'] != -1:
-            msg += "<a class='button-a' href='/post/edit/"+ str(r['post_id'])  + "' target='_blank'>编辑</a>"
-            msg += "<a class='button-a' href='/post/del/"+ str(r['post_id'])  + "' target='_blank'>删除</a>"
+            msg += "<a class='button-a' href='/post/edit/"+ str(r['post_id'])  + "'>编辑</a>"
+            msg += "<a class='button-a' href='/post/del/"+ str(r['post_id'])  + "'>删除</a>"
         msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
+        msg += "<a class='button-a' href='/post/my'>我的代码片段</a>"
         msg += "</div>"
 
         return render.TMessage("<span class='msg-success'>发布成功啦.</span><br />" + msg)
@@ -87,4 +88,19 @@ class PostView:
         return render.TPostView(post)
 
 
+class PostList:
+    def GET(self, page_idx = 1):
+        if session["UserID"] == -1:
+            web.seeother("/user/login")
 
+        page_idx = int(page_idx)
+
+        if page_idx <= 0:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "参数传递错误", [['javascript:history.go(-1)', '返回']]))
+
+        posts = MPost.Post.GetPostList(session["UserID"], page_idx - 1, GLOBAL_POST_LIST_PAGE_SIZE)
+
+        cur_page_idx = page_idx
+        max_page_idx = 10 #todo
+
+        return render.TPostList(posts, cur_page_idx, max_page_idx)

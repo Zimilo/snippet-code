@@ -1,0 +1,17 @@
+$def with(posts, cur_page_idx, max_page_idx)
+<div>
+  <table>
+  $for post in posts:
+    <tr>
+      <td><a href="/post/view/$post['id']">$post['title']</a></td>
+      <td><a href="/search/lang=$post['lang']">$post['lang']</a></td>
+      <td>$post['publish_time']</td>
+    </tr>
+  </table>
+  <div class='page-segment-control'>
+    $if cur_page_idx > 1:
+      <a href="/post/my/$(cur_page_idx-1)">上一页</a> 
+    $if cur_page_idx < max_page_idx:
+      <a href="/post/my/$(cur_page_idx+1)">下一页</a>
+  </div>
+</div>

@@ -45,3 +45,12 @@ class MUser:
             return False
 
         return user[0]
+
+    @staticmethod
+    def GetUser(user_id):
+        user = list(db.select(GLOBAL_DB_PRE + GLOBAL_DB_USERS_TABLE,
+                             where="id=%d" % user_id))
+        if not user:
+            return False
+
+        return user[0]
