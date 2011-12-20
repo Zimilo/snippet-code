@@ -84,3 +84,36 @@ class Post:
         r['post_id'] = post_id
         r['link'] = short_link
         return r
+
+
+    @staticmethod
+    def UpdateDB(post):
+        r = {}
+        r['Status'] = -1
+        r['ErrorMsg'] = ""
+
+        if not post:
+            r['ErrorMsg'] = "Post对象不正确"
+            return r
+        
+        post_id = db.update(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE, 
+                            priviledge     = post['priviledge'], 
+                            language_type  = post['language_type'],
+                            title          = post['title'],
+                            content        = post['content'],
+                            last_edit_time = post['last_edit_time'],
+                            where = "id=%d" % post['id'])
+
+
+        r['Status'] = 0
+        r['post_id'] = post_id
+        r['link'] = short_link
+        return r
+
+
+    @staticmethod
+    def CheckPostOwner(code_id, user_id):
+        post = MPost.QueryDB(code_id)
+        if post.user_id != user_id:
+            return False
+        return True
