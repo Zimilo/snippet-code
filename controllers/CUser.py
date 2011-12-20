@@ -47,7 +47,7 @@ class UserLogin:
         session['UserName']  = r.nickname
         session['UserEmail'] = r.email
 
-        return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_NORMAL, "您已经成功登陆。", [['/', '进入主页'], ['/post/add', '新建代码片段'], ['/user/profile/'+str(r.id), '个人资料']]))
+        return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_NORMAL, "您已经成功登陆。", [['/', '进入主页'], ['/post/add', '新建代码片段'], ['/post/my', '我的代码片段'], ['/user/profile/'+str(r.id), '个人资料']]))
 
 class UserLogout:
     def GET(self):

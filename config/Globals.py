@@ -22,10 +22,22 @@ GLOBAL_DB_USERS_TABLE = "users"
 #系统支持的语言类型的配置
 GLOBAL_LANGUAGES = [
     #ID, Type, DisplayName
-    [1,   "TXT",    "纯文本"],
-    [2,   "Python", "Python"],
-    [3,   "PHP",    "PHP"],
-    [4,   "Erlang", "Erlang"],
+    [1,   "txt",    "纯文本"],
+    [2,   "cpp",    "C/CPP"],
+    [2,   "python", "Python"],
+    [3,   "php",    "PHP"],
+    [4,   "erlang", "Erlang"],
+    [5,   "ruby",   "Ruby"],
+    [6,   "perl",   "Perl"],
+    [7,   "scala",  "Scala"],
+    [8,   "css",    "CSS"],
+    [9,   "javascript", "Javascript"],
+    [10,  "lua",    "Lua"],
+    [11,  "java",   "Java"],
+    [12,  "objectivec", "Objective-C"],
+    [13,  "lisp",    "Lisp"],
+    [14,  "bash",    "Bash"],
+    [15,  "haskell", "Haskell"],
     [999, "Others", "其它" ]
     ]
 
@@ -47,4 +59,4 @@ GLOBAL_MSG_WARNING = 1
 
 
 #代码片段列表分页相关数量
-GLOBAL_POST_LIST_PAGE_SIZE = 1
+GLOBAL_POST_LIST_PAGE_SIZE = 10

@@ -1,0 +1,67 @@
+$def with(post, langs)
+<div>
+  <form method="post" action="/post/add">
+    <fieldset>
+      <legend>代码设置</legend>
+      <div id="code-setting">
+	<table>
+	  <tr>
+	    <td class="code-setting-left-td"><span class="code-setting-field">语言类型</span></td>
+	    <td>
+	      <span class="code-setting-field-value">
+		<select name="code_language_type">
+		  $for lang in langs:
+		    $if post.lang_id == lang[0]:
+		      <option value="$lang[0]" selected="selected">$lang[2]</option>
+		    $else:
+		      <option value="$lang[0]">$lang[2]</option>
+		</select>
+	      </span>
+	    </td>
+	  </tr>
+	</table>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>代码正文</legend>
+      <div id="code-body">
+	<textarea cols="50" rows="15" name="code_content">$post.content</textarea>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>发布设置</legend>
+      <div id="code-publish">
+	<table>
+	  <tr>
+	    <td class="code-setting-left-td"><span class="code-setting-field">标题</span></td>
+	    <td>
+	      <span class="code-setting-field-value">
+		<input name="code_title" class="code-setting-input" type="text" placeholder="未命名代码片段" value="$post.title"/>
+	      </span>
+	    </tdp>
+	  </tr>
+	  <tr>
+	    <td class="code-setting-left-td"><span class="code-setting-field">查看权限</span></td>
+	    <td>
+	      <span class="code-setting-field-value">
+		<select name="code_priviledge">
+		  <option value="1"
+			  $if post.priviledge == 1:
+			     selected="selected">完全公开</option>
+		  <option value="0" 
+			  $if post.priviledge == 0:
+			    selected="selected">仅自己可见</option>
+		</select>
+	      </span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="code-setting-left-td"></td>
+	    <td><span class="code-setting-field-value"><input class="code-setting-submit" type="submit" value="立即保存" /></span></td>
+	  </tr>
+	</table>
+      </div>
+    </fieldset>
+  </form>
+</div>
+

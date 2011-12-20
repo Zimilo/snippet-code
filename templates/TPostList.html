@@ -1,17 +1,26 @@
 $def with(posts, cur_page_idx, max_page_idx)
 <div>
-  <table>
-  $for post in posts:
+  <table class="posts-list">
     <tr>
-      <td><a href="/post/view/$post['id']">$post['title']</a></td>
-      <td><a href="/search/lang=$post['lang']">$post['lang']</a></td>
-      <td>$post['publish_time']</td>
+      <td class="td1">标题</td>
+      <td class="td2">语言类型</td>
+      <td class="td3">发布时间</td>
     </tr>
+    $for post in posts:
+      <tr>
+	<td class="td1"><a href="/post/view/$post['id']">$post['title']</a></td>
+	<td class="td2"><a href="/search/lang=$post['lang']">$post['lang']</a></td>
+	<td class="td3">$post['publish_time']</td>
+      </tr>
   </table>
   <div class='page-segment-control'>
+    <a href="/post/my/1">最前</a>
     $if cur_page_idx > 1:
       <a href="/post/my/$(cur_page_idx-1)">上一页</a> 
     $if cur_page_idx < max_page_idx:
       <a href="/post/my/$(cur_page_idx+1)">下一页</a>
+
+    <a href="/post/my/$max_page_idx">最后</a>
   </div>
+  <div class='clear'></div>
 </div>

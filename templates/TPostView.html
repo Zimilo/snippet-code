@@ -10,8 +10,8 @@ $def with (post)
           Guest
 	</a>
       $else:
-        <a href="/user/profile/$post.user_id">
-	  $post.nickname
+        <a href="/user/profile/$post.user['id']">
+	  $post.user['nickname']
 	</a>
       在 $post['publish_time'] 发布 最后更新 $post['last_edit_time']
     语言类型 <a href="/search/lang=$post['lang']">$post['lang']</a> 
@@ -23,6 +23,6 @@ $def with (post)
       <a href="/post/del/$post['id']">删除</a>
   </div>
   <div id="post-content">
-    <pre lang="$post['language_type']" class="code-format">$post['content']</pre>
+    <pre><code class="$post['lang_type']">$post['content']</code></pre>
   </div>
 </div>

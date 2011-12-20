@@ -98,9 +98,30 @@ class PostList:
         if page_idx <= 0:
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "参数传递错误", [['javascript:history.go(-1)', '返回']]))
 
-        posts = MPost.Post.GetPostList(session["UserID"], page_idx - 1, GLOBAL_POST_LIST_PAGE_SIZE)
+        (posts, total_count) = MPost.Post.GetPostList(session["UserID"], page_idx - 1, GLOBAL_POST_LIST_PAGE_SIZE)
+        max_page_idx = (total_count + GLOBAL_POST_LIST_PAGE_SIZE - 1) / GLOBAL_POST_LIST_PAGE_SIZE
+        return render.TPostList(posts, page_idx, max_page_idx)
 
-        cur_page_idx = page_idx
-        max_page_idx = 10 #todo
 
-        return render.TPostList(posts, cur_page_idx, max_page_idx)
+class PostEdit:
+    def GET(self, post_id):
+        try:
+            pid = int(post_id)
+        except:
+            return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
+
+        post = MPost.Post.QueryDB(post_id = pid)
+
+        if not post:
+            return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
+
+        #检查查看的权限
+        if post['priviledge'] == GLOBAL_PRIVILEDGE_PRIVATE:
+            if session['UserID'] != post['user_id']:
+                return render.TMessage("<span class='msg-error'>对不起，您没有权限编辑此代码片段</span><br /><a href='/'>返回主页</a>")
+        
+        return render.TPostEditView(post, MLanguage.GetAllLangs())
+        
+
+    def POST(self):
+        pass

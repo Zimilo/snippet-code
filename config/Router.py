@@ -9,7 +9,7 @@ def Router():
         ['/user/logout',      'CUser.UserLogout'],
         ['/user/profile/(.*)','CUser.UserProfile'],
         ['/post/add',         'CPost.PostAdd'],
-        ['/post/edit',        'CPost.PostEdit'],
+        ['/post/edit/(.*)',   'CPost.PostEdit'],
         ['/post/del',         'CPost.PostDel'],
         
         ['/post/my',          'CPost.PostList'], #设置默认列表分页

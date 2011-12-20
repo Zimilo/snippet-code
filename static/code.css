@@ -292,3 +292,46 @@ legend{
     padding-left:3px;
     font-size:11px;
 }
+.page-segment-control {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.page-segment-control a{
+    margin-right:10px;
+    border-radius:3px;
+    color:#666;
+    text-decoration:none;
+    font-size:12px;
+    background:#EEE;
+    font-weight:300;
+    line-height:24px;
+    display:block;
+    float:left;
+    height:24px;
+    text-align:center;
+    padding:1px 7px 1px 7px;
+}
+.clear{
+    clear:both;
+}
+.posts-list {
+    width:100%;
+}
+.posts-list td{
+    height:30px;
+    line-height:30px;
+    background:#F8F8F8;
+    padding-left:10px;
+    padding-right:10px;
+}
+.posts-list .td1{
+    width:60%;
+}
+.posts-list .td2{
+    width:20%;
+    text-align:center;
+}
+.posts-list .td3{
+    width:20%;
+    text-align:center;
+}

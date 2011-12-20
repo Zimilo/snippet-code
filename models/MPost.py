@@ -10,17 +10,26 @@ class Post:
 
     @staticmethod
     def QueryDB(post_id):
-        #post = list(db.select(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE,
-                         #where = "id=%d" % post_id))
+        post = list(db.select(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE,
+                              where = "id=%d" % post_id))
 
-                         
-        post = db.query("SELECT * FROM " + GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE + " AS POSTS LEFT JOIN " + GLOBAL_DB_PRE + GLOBAL_DB_USERS_TABLE + " USERS ON POSTS.user_id = USERS.id WHERE POSTS.id=%d" % post_id)
+        #post = db.query("SELECT * FROM " + GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE + " AS POSTS LEFT JOIN " + GLOBAL_DB_PRE + GLOBAL_DB_USERS_TABLE + " USERS ON POSTS.user_id = USERS.id WHERE POSTS.id=%d" % post_id)
 
         if not len(post):
             return False
 
         post = post[0]
-        post.lang = MLanguage.Query(post.language_type)[2]
+
+        lang = MLanguage.Query(post.language_type)
+
+        post.lang = lang[2]
+        post.lang_type = lang[1]
+        post.lang_id = lang[0]
+
+        post.user = MUser.GetUser(post.user_id)
+
+        if not post.user:
+            return False
 
         if not post.lang:
             return False
@@ -41,7 +50,12 @@ class Post:
             post.lang = MLanguage.Query(post.language_type)[2]
             post.publish_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(post.publish_time))
             post.last_edit_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(post.last_edit_time))
-        return posts
+
+
+
+        post_count = db.query("SELECT COUNT(*) AS TotalCount FROM " + GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE + " WHERE user_id = %d" % user_id)
+
+        return (posts, post_count[0].TotalCount)
 
     @staticmethod
     def Insert2DB(post):
