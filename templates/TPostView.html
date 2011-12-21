@@ -17,6 +17,7 @@ $def with (post)
     语言类型 <a href="/search/lang=$post['lang']">$post['lang']</a> 
   </div>
   <div id="post-control">
+    <a href="/$post['link']">查看短链接</a>
     <a href="/post/genimg/$post['id']">生成图片</a>
     $if ctx["UserID"] != -1:
       <a href="/post/edit/$post['id']">编辑</a>

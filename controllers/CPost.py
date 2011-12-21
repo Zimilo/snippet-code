@@ -124,7 +124,8 @@ class PostEdit:
         
         return render.TPostEditView(post, MLanguage.GetAllLangs())
         
-    def POST(self):
+    def POST(self, c_id):
+        
         if session['UserID'] == -1:
             web.seeother("/user/login")
         
@@ -133,21 +134,20 @@ class PostEdit:
         code_priviledge = int(web.input()['code_priviledge'].strip())
         code_content = web.input()['code_content'].strip()
         code_language_type = int(web.input()['code_language_type'].strip())
-        
+
+        if code_id != c_id:
+            return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
         try:
             code_id = int(code_id)
         except:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
-
         #先检查该Post是否为当前用户所有
 
-        if not MPost.CheckPostOwner(code_id, session['UserID']):
+        if not MPost.Post.CheckPostOwner(code_id, session['UserID']):
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "你没有权限修改该文章", [['javascript:history.go(-1)', '返回之前的页面']]))
         
-        
-
 
         if not len(code_content):
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "外面PM2.5这么严重, 宅在家里至少写点代码再提交吧", [['javascript:history.go(-1)', '返回之前的页面']]))
@@ -159,7 +159,7 @@ class PostEdit:
             code_title = GLOBAL_DEFAULT_POST_TITLE
 
         post = {
-            'id' : 105,
+            'id' : code_id,
             'priviledge':code_priviledge,
             'language_type':code_language_type,
             'title':code_title,
@@ -172,20 +172,19 @@ class PostEdit:
         if r['Status'] == -1:
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "操作失败: [" + r['ErrorMsg'] + "]。", [['javascript:history.go(-1)', '返回之前的页面']]))
 
-        short_url = "http://snippet-code.com/" + r['link']
-        msg = "<div style='margin-top:15px;'>编辑成功!快使用该链接与大家分享代码吧<input type='text' onclick='javascript:this.select()' class='shorturl-input' value='" + short_url + "' /></div>"
+        msg = ""
         msg += "<div style='margin-top:5px;'>"
         msg += "还可以执行以下操作:" 
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
-        msg += "<a class='button-a' href='/post/view/"+ str(r['post_id'])  + "'>查看</a>"
-        msg += "<a class='button-a' href='/post/genimg/"+ str(r['post_id'])  + "'>生成图片</a>"
+        msg += "<a class='button-a' href='/post/view/"+ str(post['id'])  + "'>查看</a>"
+        msg += "<a class='button-a' href='/post/genimg/"+ str(post['id'])  + "'>生成图片</a>"
         if session['UserID'] != -1:
-            msg += "<a class='button-a' href='/post/edit/"+ str(r['post_id'])  + "'>编辑</a>"
-            msg += "<a class='button-a' href='/post/del/"+ str(r['post_id'])  + "'>删除</a>"
+            msg += "<a class='button-a' href='/post/edit/"+ str(post['id'])  + "'>编辑</a>"
+            msg += "<a class='button-a' href='/post/del/"+ str(post['id'])  + "'>删除</a>"
         msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
         msg += "<a class='button-a' href='/post/my'>我的代码片段</a>"
         msg += "</div>"
 
-        return render.TMessage("<span class='msg-success'>发布成功啦.</span><br />" + msg)
+        return render.TMessage("<span class='msg-success'>编辑成功啦.</span><br />" + msg)
 
