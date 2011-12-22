@@ -56,6 +56,47 @@ class UserLogout:
 
 
 class UserProfile:
-    def GET(self, user_id):
-        user = {}
+    def GET(self, account_id):
+        try:
+            account_id = int(account_id)
+        except:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "您要查看的用户不存在", [['/', '进入主页']]))
+
+        user = MUser.GetUserByAccountID(account_id)
+        if not user:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_NORMAL, "无此用户", [['/', '返回主页']]))
         return render.TUserProfile(user)
+
+    def POST(self, account_id):
+        try:
+            account_id = int(account_id)
+        except:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "参数传递不正确", [['javascript:history.go(-1)', '返回上一页']]))
+
+        if account_id != session['UserID']:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "您不能修改其他人的资料", [['/', '返回主页']]))
+
+        #验证用户当前输入的密码
+        account_current_passwd = web.input().account_current_passwd.strip()
+        account_passwd = web.input().account_passwd.strip()
+        account_passwd_confirm = web.input().account_passwd_confirm.strip()
+
+        if not len(account_current_passwd):
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "请填写当前账户密码进行验证", [['javascript:history.go(-1)', '返回上一页']]))
+
+
+        if not MUser.VerifyPasswd(account_id, account_current_passwd):
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "当前账户密码验证失败，请输入正确的密码", [['javascript:history.go(-1)', '返回上一页']]))
+        
+
+        if not len(account_passwd):
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "请填写新密码", [['javascript:history.go(-1)', '返回上一页']]))
+
+        if len(account_passwd):
+            if account_passwd != account_passwd_confirm:
+                return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "新密码两次输入不一致", [['javascript:history.go(-1)', '返回上一页']]))
+
+        if not MUser.UpdateUserPasswd(account_id, account_passwd):
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "更新您的密码失败", [['/', '返回主页']]))        
+            
+        return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_NORMAL, "您的资料已更新,请在下次登陆的时候使用新密码", [['/', '返回主页']]))        

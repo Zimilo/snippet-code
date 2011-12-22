@@ -19,7 +19,7 @@ $def with (post)
   <div id="post-control">
     <a href="/$post['link']">查看短链接</a>
     <a href="/post/genimg/$post['id']">生成图片</a>
-    $if ctx["UserID"] != -1:
+    $if ctx["UserID"] != -1 and ctx['UserID'] == post.user_id:
       <a href="/post/edit/$post['id']">编辑</a>
       <a href="/post/del/$post['id']">删除</a>
   </div>

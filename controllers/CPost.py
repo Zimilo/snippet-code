@@ -77,6 +77,7 @@ class PostView:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
         post = MPost.Post.QueryDB(post_id = pid)
+
         if not post:
             return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
 
@@ -113,6 +114,9 @@ class PostEdit:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
         post = MPost.Post.QueryDB(post_id = pid)
+
+        if post.user.id != session['UserID']:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "您没有权限修改该代码片段", [['javascript:history.go(-1)', '返回']]))
 
         if not post:
             return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
@@ -188,3 +192,65 @@ class PostEdit:
 
         return render.TMessage("<span class='msg-success'>编辑成功啦.</span><br />" + msg)
 
+
+
+class PostDel:
+    def GET(self, post_id):
+        if session['UserID'] == -1:
+            web.seeother("/user/login")
+        try:
+            pid = int(post_id)
+        except:
+            return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
+
+        post = MPost.Post.QueryDB(post_id = pid)
+
+        if not post:
+            return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
+        
+
+        if post.user.id != session['UserID']:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "您没有权限修改该代码片段", [['javascript:history.go(-1)', '返回']]))
+
+
+        #检查查看的权限
+        if post['priviledge'] == GLOBAL_PRIVILEDGE_PRIVATE:
+            if session['UserID'] != post['user_id']:
+                return render.TMessage("<span class='msg-error'>对不起，您没有权限编辑此代码片段</span><br /><a href='/'>返回主页</a>")
+
+        return render.TPostDelView(post)
+
+    def POST(self, post_id):
+        if session['UserID'] == -1:
+            web.seeother("/user/login")
+        
+        code_id = web.input()['code_id'].strip()
+
+        if code_id != post_id:
+            return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
+
+        try:
+            code_id = int(code_id)
+        except:
+            return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
+
+        #先检查该Post是否为当前用户所有
+
+        if not MPost.Post.CheckPostOwner(code_id, session['UserID']):
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "你没有权限修改该文章", [['javascript:history.go(-1)', '返回之前的页面']]))
+        
+        r = MPost.Post.DeleteFromDBByPostID(code_id)
+
+        if r['Status'] == -1:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "操作失败: [" + r['ErrorMsg'] + "]。", [['javascript:history.go(-1)', '返回之前的页面']]))
+
+        msg = ""
+        msg += "<div style='margin-top:5px;'>"
+        msg += "您还可以执行以下操作:" 
+        msg += "</div>"
+        msg += "<div style='margin-top:5px;'>"
+        msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
+        msg += "<a class='button-a' href='/post/my'>我的代码片段</a>"
+        msg += "</div>"
+
+        return render.TMessage("<span class='msg-success'>删除成功.</span><br />" + msg)

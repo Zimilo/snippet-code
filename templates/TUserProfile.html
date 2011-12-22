@@ -1,6 +1,75 @@
 $def with(user)
 <div>
+  $if ctx['UserID'] == user.id:
+    <form method="post" action="/user/profile/$user.id">
+  <fieldset>
+      $if ctx['UserID'] == user.id:
+        <legend>我的个人资料</legend>
+      $else:
+	<legend>$user.nickname 的资料</legend>
+      <div id="user-panel">
+	<table>
+	  $if ctx['UserID'] == user.id:
+	    <tr>
+	      <td class="user-panel-left-td">当前账户密码</td>
+	      <td>
+		<span class="user-panel-field-value">
+		  <input type="password" name="account_current_passwd" class="user-panel-input" value=""/>
+		</span>
+	      </td>
+	    </tr>	  
 
-  UserProfile
-
+	  $if ctx['UserID'] != user.id:
+	    <tr>
+	      <td class="user-panel-left-td">昵称</td>
+	      <td>
+		<span class="user-panel-field-value">
+		  $if ctx['UserID'] == user.id:
+		    <input type="text" name="account_nickname" class="user-panel-input" value="$user.nickname"/>
+		  $else:
+		    $user.nickname
+		</span>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td class="user-panel-left-td">邮箱</td>
+	      <td>
+		<span class="user-panel-field-value">
+		  $if ctx['UserID'] == user.id:
+		    <input type="text" name="account_email" class="user-panel-input" value="$user.email" />
+		  $else:
+		    $user.email
+		</span>
+	      </td>
+	    </tr>
+	  $if ctx['UserID'] == user.id:
+	    <tr>
+	      <td class="user-panel-left-td">新密码</td>
+	      <td>
+		<span class="user-panel-field-value">
+		  <input type="password" name="account_passwd" class="user-panel-input" />
+		</span>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td class="user-panel-left-td">确认新密码</td>
+	      <td>
+		<span class="user-panel-field-value">
+		  <input type="password" name="account_passwd_confirm" class="user-panel-input" />
+		</span>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td class="user-panel-left-td"></td>
+	      <td>
+		<span class="user-panel-field-value">
+		  <input type="submit" value="立即更新" class="user-panel-submit" />
+		</span>
+	      </td>
+	    </tr>
+	</table>
+      </div>
+    </fieldset>
+  $if ctx['UserID'] == user.id:
+    </form>
 </div>

@@ -4,13 +4,20 @@ $def with(posts, cur_page_idx, max_page_idx)
     <tr>
       <td class="td1">标题</td>
       <td class="td2">语言类型</td>
-      <td class="td3">发布时间</td>
+      <td class="td3">查看权限</td>
+      <td class="td4">发布时间</td>
     </tr>
     $for post in posts:
       <tr>
 	<td class="td1"><a href="/post/view/$post['id']">$post['title']</a></td>
 	<td class="td2"><a href="/search/lang=$post['lang']">$post['lang']</a></td>
-	<td class="td3">$post['publish_time']</td>
+	<td class="td3">
+	  $if post['priviledge'] == 1:
+	    完全公开
+	  $else:
+	    仅自己可见
+	</td>
+	<td class="td4">$post['publish_time']</td>
       </tr>
   </table>
   <div class='page-segment-control'>

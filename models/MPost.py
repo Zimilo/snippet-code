@@ -26,7 +26,8 @@ class Post:
         post.lang_type = lang[1]
         post.lang_id = lang[0]
 
-        post.user = MUser.GetUser(post.user_id)
+        post.user = MUser.GetUserByAccountID(post.user_id)
+
 
         if not post.user:
             return False
@@ -115,3 +116,16 @@ class Post:
         if post.user_id != user_id:
             return False
         return True
+
+
+    @staticmethod
+    def DeleteFromDBByPostID(code_id):
+        r = {}
+        r['Status'] = -1
+        r['ErrorMsg'] = ""
+
+        db.delete(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE, 
+                  where="id=%d" % code_id)
+
+        r['Status'] = 0
+        return r
