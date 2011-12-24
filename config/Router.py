@@ -17,7 +17,8 @@ def Router():
 
         ['/post/genimg/(.*)', 'CPost.PostGenImage'],
         ['/post/view/(.*)',   'CPost.PostView'],
-        #['/(*)', 'CPager.CPager']
+
+        ['/(.*)', 'CPost.ShortLnkViewer'], #短链接
         ]
 
     route_urls = []

@@ -9,12 +9,21 @@ import time
 class Post:
 
     @staticmethod
-    def QueryDB(post_id):
+    def QueryDB(post_id = None, short_lnk = None):
+        if (post_id == None and short_lnk == None) or (post_id != None and short_lnk != None):
+            return False
+
+        vars_cond = {}
+        if post_id != None:
+            where_cond = "id=%d" % post_id
+            
+        if short_lnk != None:
+            where_cond = "link=$link"
+            vars_cond['link'] = short_lnk
+
         post = list(db.select(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE,
-                              where = "id=%d" % post_id))
-
-        #post = db.query("SELECT * FROM " + GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE + " AS POSTS LEFT JOIN " + GLOBAL_DB_PRE + GLOBAL_DB_USERS_TABLE + " USERS ON POSTS.user_id = USERS.id WHERE POSTS.id=%d" % post_id)
-
+                              where = where_cond,
+                              vars = vars_cond))
         if not len(post):
             return False
 
@@ -27,7 +36,6 @@ class Post:
         post.lang_id = lang[0]
 
         post.user = MUser.GetUserByAccountID(post.user_id)
-
 
         if not post.user:
             return False

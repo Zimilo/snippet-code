@@ -249,8 +249,33 @@ class PostDel:
         msg += "您还可以执行以下操作:" 
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
-        msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
+        msg += "<a class='button-a' href='/post/add'>新建代码片段</a>"
         msg += "<a class='button-a' href='/post/my'>我的代码片段</a>"
         msg += "</div>"
 
         return render.TMessage("<span class='msg-success'>删除成功.</span><br />" + msg)
+        
+        
+       
+class PostGenImage:
+    def GET(self):
+        return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "该功能正在开发中，敬请期待。", [['javascript:history.go(-1)', '返回之前的页面']]))
+
+
+class ShortLnkViewer:
+    def GET(self, short_lnk):
+        if not len(short_lnk):
+            return render.TMessage("<span class='msg-error'>参数传递错误</span><br /><a href='/'>返回主页</a>")
+
+        post = MPost.Post.QueryDB(short_lnk = short_lnk)
+
+        if not post:
+            return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
+
+        #检查查看的权限
+        if post['priviledge'] == GLOBAL_PRIVILEDGE_PRIVATE:
+            if session['UserID'] != post['user_id']:
+                return render.TMessage("<span class='msg-error'>对不起，您没有权限查看此代码片段</span><br /><a href='/'>返回主页</a>")
+        
+        return render.TPostView(post)
+        
