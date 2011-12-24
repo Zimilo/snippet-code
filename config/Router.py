@@ -19,6 +19,7 @@ def Router():
         ['/post/view/(.*)',   'CPost.PostView'],
 
         ['/(.*)', 'CPost.ShortLnkViewer'], #短链接
+
         ]
 
     route_urls = []
