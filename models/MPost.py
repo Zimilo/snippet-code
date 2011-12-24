@@ -35,10 +35,10 @@ class Post:
         post.lang_type = lang[1]
         post.lang_id = lang[0]
 
-        post.user = MUser.GetUserByAccountID(post.user_id)
-
-        if not post.user:
-            return False
+        if post.user_id != -1:
+            post.user = MUser.GetUserByAccountID(post.user_id)
+            if not post.user:
+                return False
 
         if not post.lang:
             return False
