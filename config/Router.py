@@ -18,6 +18,8 @@ def Router():
         ['/post/genimg/(.*)', 'CPost.PostGenImage'],
         ['/post/view/(.*)',   'CPost.PostView'],
 
+        ['/online_dev', 'CLab.Lab'], #在线编程
+
         ['/(.*)', 'CPost.ShortLnkViewer'], #短链接
 
         ]
