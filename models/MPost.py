@@ -66,6 +66,29 @@ class Post:
 
         return (posts, post_count[0].TotalCount)
 
+
+    @staticmethod
+    def GetPosts(params):
+        posts = list(db.select(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE,
+                               where  = params['where'],
+                               order  = params['order'],
+                               offset = params['offset'],
+                               limit  = params['count']))
+
+        for post in posts:
+            post.lang = MLanguage.Query(post.language_type)[2]
+            post.publish_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(post.publish_time))
+            post.last_edit_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(post.last_edit_time))
+            if post.user_id != -1:
+                post.user = MUser.GetUserByAccountID(post.user_id)
+
+
+        post_count = db.query("SELECT COUNT(*) AS TotalCount FROM " + GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE + " WHERE " + params['where'])
+
+        return (posts, post_count[0].TotalCount)
+
+
+
     @staticmethod
     def Insert2DB(post):
         r = {}

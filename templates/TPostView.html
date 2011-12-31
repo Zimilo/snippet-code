@@ -29,7 +29,7 @@ $def with (post, comments)
 
   $for comment in comments:
     <div class="post-comment">
-      <p class="post-comment-meta"><b>$comment.user_name</b> 于 <b>$comment.publish_time</b> 评论到:</p>
+      <p class="post-comment-meta"><b>$comment.user_name</b> 于 <b>$comment.publish_time</b> 发表评论</p>
       <p class="post-comment-content">$comment.content</p>
     </div>
 
@@ -47,7 +47,7 @@ $def with (post, comments)
         </td>
       $else:
         <td colspan="2">
-          <i>当前已使用账户</i> <b>$ctx['UserName']</b> <i>登陆</i>, <a href="/user/logout">退出？</a>
+          <i>当前已使用账户</i> <b>$ctx['UserName']</b> <i>登陆</i>, <a href="/user/logout">退出 ？</a>
           <input type="hidden" value="$ctx['UserName']" name="user_name" />
         </td>
     </tr>

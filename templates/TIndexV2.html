@@ -1,0 +1,35 @@
+$def with(posts, cur_page_idx, max_page_idx)
+<div>
+  <legend>最新代码片段</legend>
+  <table class="posts-list">
+    <tr>
+      <td class="td1" style="background:#E3E3E3">标题</td>
+      <td class="td2" style="background:#E3E3E3">语言类型</td>
+      <td class="td3" style="background:#E3E3E3">作者</td>
+      <td class="td4" style="background:#E3E3E3">发布时间</td>
+    </tr>
+    $for post in posts:
+      <tr>
+	<td class="td1"><a href="/post/view/$post['id']">$post['title']</a></td>
+	<td class="td2"><a href="/search/lang=$post['lang']">$post['lang']</a></td>
+	<td class="td3">
+	  $if post['user_id'] == -1:
+	    Guest
+	  $else:
+	    <a href="/user/profile/$post['user_id']">$post.user['nickname']</a>
+	</td>
+	<td class="td4">$post['publish_time']</td>
+      </tr>
+  </table>
+    <div class='page-segment-control'>
+    <a href="/index/$max_page_idx">最后</a>
+    $if cur_page_idx < max_page_idx:
+      <a href="/index/$(cur_page_idx+1)">下一页</a>    
+    $if cur_page_idx > 1:
+      <a href="/index/$(cur_page_idx-1)">上一页</a>  
+    <a href="/index/1">最前</a>
+
+    
+  </div>
+  <div class='clear'></div>
+</div>

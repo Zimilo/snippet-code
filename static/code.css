@@ -312,7 +312,7 @@ legend{
     font-weight:300;
     line-height:24px;
     display:block;
-    float:left;
+    float:right;
     height:24px;
     text-align:center;
     padding:1px 7px 1px 7px;
@@ -356,4 +356,24 @@ legend{
 }
 .post-comment-content{
     padding-left:30px;font-style:italic;
+}
+#more-control{
+    background:#F8F8F8;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    margin-top:15px;
+    border:1px solid #CCC;
+}
+#more-control a{
+    text-decoration:none;
+    color:#333;
+    font-size:16px;
+    font-weight:bold;
+    font-style:italic;
+    display:block;
+    width:100%;
+}
+#more-control a:hover{
+    background:#E3E3E3;
 }

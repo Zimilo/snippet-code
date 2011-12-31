@@ -3,7 +3,9 @@
 
 def Router():
     urls = [
+        ['/index/(\d+)',      'CIndex.Index'],
         ['/',                 'CIndex.Index'],
+
         ['/user/reg',         'CUser.UserReg'],
         ['/user/login',       'CUser.UserLogin'],
         ['/user/logout',      'CUser.UserLogout'],
