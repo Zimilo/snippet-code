@@ -5,14 +5,12 @@ $def with (post, comments)
   </div>
   <div id="post-meta">
     本条目由 
-      $if ctx['UserID'] == -1:
-        <a href="/user/login">
+      $if post['user_id'] == -1:
           Guest
-	</a>
       $else:
         <a href="/user/profile/$post.user['id']">
-	  $post.user['nickname']
-	</a>
+	      $post.user['nickname']
+	      </a>
       在 $post['publish_time'] 发布 最后更新 $post['last_edit_time']
     语言类型 <a href="/search/lang=$post['lang']">$post['lang']</a> 
   </div>
