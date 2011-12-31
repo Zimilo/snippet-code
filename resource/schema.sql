@@ -17,3 +17,11 @@ CREATE TABLE posts (
  publish_time INTEGER,
  last_edit_time INTEGER
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE comments (
+id INT PRIMARY KEY AUTO_INCREMENT,
+post_id INTEGER,
+user_name VARCHAR(255),
+content VARCHAR(1000),
+publish_time INTEGER
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

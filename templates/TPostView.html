@@ -1,4 +1,4 @@
-$def with (post)
+$def with (post, comments)
 <div>
   <div id="post-title">
     $post['title']
@@ -25,5 +25,40 @@ $def with (post)
   </div>
   <div id="post-content">
     <pre><code class="$post['lang_type']">$post['content']</code></pre>
+  </div>
+
+  $for comment in comments:
+    <div class="post-comment">
+      <p class="post-comment-meta"><b>$comment.user_name</b> 于 <b>$comment.publish_time</b> 评论到:</p>
+      <p class="post-comment-content">$comment.content</p>
+    </div>
+
+  <div id="post-comment-form">
+    <form method="post" action="/comment/post">
+    <input type="hidden" value="$post.id" name="post_id" />
+    <table id="comment-form-table">
+    <tr>
+      $if ctx['UserID'] == -1:
+        <td>
+          昵称
+        </td>
+        <td>
+          <input type="text" class="code-setting-input" name="user_name" />
+        </td>
+      $else:
+        <td colspan="2">
+          <i>当前已使用账户</i> <b>$ctx['UserName']</b> <i>登陆</i>, <a href="/user/logout">退出？</a>
+          <input type="hidden" value="$ctx['UserName']" name="user_name" />
+        </td>
+    </tr>
+    <tr>
+      <td valign="top">内容</td>
+      <td><textarea cols="93" rows="7" name="comment_content"></textarea></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input class="code-setting-submit" type="submit" value="发布评论" /></td>
+    </tr>
+    </table>
+    </form>
   </div>
 </div>

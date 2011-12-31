@@ -255,6 +255,12 @@ legend{
     margin-top:50px;
     margin-bottom:30px;
 }
+#post-comment-form{
+    border:1px solid #ccc;
+    background:#F0F0F0;
+    padding:10px 10px 10px 10px;
+    margin-top:15px;
+}
 .code-format{
 }
 .button-a{
@@ -338,4 +344,16 @@ legend{
 .posts-list .td4{
     width:20%;
     text-align:center;
+}
+#comment-form-table td{
+    padding:5px 10px 5px 10px;
+}
+.post-comment{
+    border:1px solid #ccc;
+    margin-top:10px;
+    padding:10px 10px 10px 10px;
+    background:#F0F0F0;
+}
+.post-comment-content{
+    padding-left:30px;font-style:italic;
 }

@@ -6,6 +6,7 @@ from config.Globals import *
 from models import MPost
 from models.MLanguage import MLanguage
 from models.MMessage import MMessage
+from models import MComment
 
 
 class PostAdd:
@@ -86,7 +87,15 @@ class PostView:
             if session['UserID'] != post['user_id']:
                 return render.TMessage("<span class='msg-error'>对不起，您没有权限查看此代码片段</span><br /><a href='/'>返回主页</a>")
         
-        return render.TPostView(post)
+
+
+        comments = MComment.Comment.QueryDB(post_id=pid)
+
+        if not comments:
+            comments = []
+
+
+        return render.TPostView(post, comments)
 
 
 class PostList:

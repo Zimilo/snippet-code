@@ -18,6 +18,7 @@ GLOBAL_DB_DB          = "snippet"
 GLOBAL_DB_PRE         = "snippet_"
 GLOBAL_DB_POSTS_TABLE = "posts"
 GLOBAL_DB_USERS_TABLE = "users"
+GLOBAL_DB_COMMENTS_TABLE = "comments"
 
 #系统支持的语言类型的配置
 GLOBAL_LANGUAGES = [
