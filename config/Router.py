@@ -3,7 +3,7 @@
 
 def Router():
     urls = [
-        ['/index/(\d+)',      'CIndex.Index'],
+        ['/index/(.*)',      'CIndex.Index'],
         ['/',                 'CIndex.Index'],
 
         ['/user/reg',         'CUser.UserReg'],
@@ -15,7 +15,7 @@ def Router():
         ['/post/del/(.*)',    'CPost.PostDel'],
         
         ['/post/my',          'CPost.PostList'], #设置默认列表分页
-        ['/post/my/(\d+)',    'CPost.PostList'],
+        ['/post/my/(.*)',    'CPost.PostList'],
 
         ['/post/genimg/(.*)', 'CPost.PostGenImage'],
         ['/post/view/(.*)',   'CPost.PostView'],

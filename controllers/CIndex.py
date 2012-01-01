@@ -3,6 +3,7 @@
 
 from config.Runtime import *
 from models.MLanguage import MLanguage
+from models.MMessage import MMessage
 from models import MPost
 
 class Index:
@@ -24,5 +25,8 @@ class Index:
 
     	max_page_idx = (total_count + GLOBAL_POST_LIST_PAGE_SIZE - 1) / GLOBAL_POST_LIST_PAGE_SIZE
 
+    	if page_idx > max_page_idx:
+        	return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "参数传递错误", [['javascript:history.go(-1)', '返回']]))
+   		
+
     	return render.TIndexV2(posts, page_idx, max_page_idx)
-    	#return render.TIndex(MLanguage.GetAllLangs())

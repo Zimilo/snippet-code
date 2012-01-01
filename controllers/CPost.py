@@ -110,6 +110,10 @@ class PostList:
 
         (posts, total_count) = MPost.Post.GetPostList(session["UserID"], page_idx - 1, GLOBAL_POST_LIST_PAGE_SIZE)
         max_page_idx = (total_count + GLOBAL_POST_LIST_PAGE_SIZE - 1) / GLOBAL_POST_LIST_PAGE_SIZE
+
+        if page_idx > max_page_idx:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "参数传递错误", [['javascript:history.go(-1)', '返回']]))
+
         return render.TPostList(posts, page_idx, max_page_idx)
 
 
