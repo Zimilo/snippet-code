@@ -10,7 +10,7 @@ $def with(posts, cur_page_idx, max_page_idx)
     </tr>
     $for post in posts:
       <tr>
-	<td class="td1"><a href="/post/view/$post['id']">$post['title']</a></td>
+	<td class="td1"><a href="/$post['link']">$post['title']</a></td>
 	<td class="td2"><a href="/search/lang=$post['lang']">$post['lang']</a></td>
 	<td class="td3">
 	  $if post['user_id'] == -1:
