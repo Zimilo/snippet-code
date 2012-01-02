@@ -59,7 +59,7 @@ class PostAdd:
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
         msg += "<a class='button-a' href='/post/view/"+ str(r['post_id'])  + "'>查看</a>"
-        msg += "<a class='button-a' href='/"+ str(r['link'])  + ".png'>生成图片</a>"
+        msg += "<a class='button-a' href='/"+ str(r['link'])  + ".gif'>生成图片</a>"
         if session['UserID'] != -1:
             msg += "<a class='button-a' href='/post/edit/"+ str(r['post_id'])  + "'>编辑</a>"
             msg += "<a class='button-a' href='/post/del/"+ str(r['post_id'])  + "'>删除</a>"
