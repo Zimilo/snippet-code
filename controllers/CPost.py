@@ -281,7 +281,7 @@ class PostGenImage:
             return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
 
         
-        filename = GLOBAL_PIC_STORE_DIRECTORY + post.link + ".png"
+        filename = GLOBAL_PIC_STORE_DIRECTORY + '/' + post.link + ".png"
 
         if not os.path.exists(filename):
             if GLOBAL_USING_XVFB:
@@ -342,7 +342,7 @@ class PostEmbed:
             if session['UserID'] != post['user_id']:
                 return render.TMessage("<span class='msg-error'>对不起，您没有权限查看此代码片段</span><br /><a href='/'>返回主页</a>")        
 
-        render = web.template.render('templates/')
+        render = web.template.render(GLOBAL_PROJECT_ROOT + '/templates/')
 
         return render.TPostEmbed(post)
 
