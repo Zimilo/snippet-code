@@ -284,7 +284,11 @@ class PostGenImage:
         filename = GLOBAL_PIC_STORE_DIRECTORY + post.link + ".png"
 
         if not os.path.exists(filename):
-            cmd = GLOBAL_PHANTOMJS_BIN_DIRECTORY + "/phantomjs" + " " + GLOBAL_PHANTOMJS_SCRIPTS_DIRECTORY + "/rasterize.js" + " " + "http://" + GLOBAL_PROJECT_DOMAIN + "/F_" + post.link + " "+filename   
+            if GLOBAL_USING_XVFB:
+                cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24"'
+            else:
+                cmd = ""
+            cmd += " " + GLOBAL_PHANTOMJS_BIN_DIRECTORY + "/phantomjs" + " " + GLOBAL_PHANTOMJS_SCRIPTS_DIRECTORY + "/rasterize.js" + " " + "http://" + GLOBAL_PROJECT_DOMAIN + "/F_" + post.link + " "+filename   
             os.system(cmd)
 
         f = open(filename, "r")

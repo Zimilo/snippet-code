@@ -69,3 +69,4 @@ GLOBAL_POST_LIST_PAGE_SIZE = 10
 GLOBAL_PIC_STORE_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/pics/"
 GLOBAL_PHANTOMJS_BIN_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/scripts/phantomjs-1.4.1/bin"
 GLOBAL_PHANTOMJS_SCRIPTS_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/scripts/phantomjs-1.4.1/examples"
+GLOBAL_USING_XVFB = False
