@@ -281,7 +281,7 @@ class PostGenImage:
             return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
 
         
-        filename = GLOBAL_PIC_STORE_DIRECTORY + '/' + post.link + ".png"
+        filename = GLOBAL_PIC_STORE_DIRECTORY + '/' + post.link + ".gif"
 
         if not os.path.exists(filename):
             if GLOBAL_USING_XVFB:
@@ -293,7 +293,7 @@ class PostGenImage:
 
         f = open(filename, "r")
         
-        web.header('Content-type', 'image/png')
+        web.header('Content-type', 'image/gif')
 
         data = f.read()
 

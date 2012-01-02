@@ -17,7 +17,7 @@ def Router():
         ['/post/my',          'CPost.PostList'], #设置默认列表分页
         ['/post/my/(.*)',    'CPost.PostList'],
 
-        ['/(.*).png', 'CPost.PostGenImage'],
+        ['/(.*).gif', 'CPost.PostGenImage'],
         ['/post/view/(.*)',   'CPost.PostView'],
 
         ['/online_dev', 'CLab.Lab'], #在线编程
