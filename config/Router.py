@@ -17,14 +17,17 @@ def Router():
         ['/post/my',          'CPost.PostList'], #设置默认列表分页
         ['/post/my/(.*)',    'CPost.PostList'],
 
-        ['/post/genimg/(.*)', 'CPost.PostGenImage'],
+        ['/(.*).png', 'CPost.PostGenImage'],
         ['/post/view/(.*)',   'CPost.PostView'],
 
         ['/online_dev', 'CLab.Lab'], #在线编程
 
         ['/comment/post', 'CComment.CommentPost'],
 
-        ['/(.*)', 'CPost.ShortLnkViewer'], #短链接
+
+        ['/F_(.*)', 'CPost.PostEmbed'],
+
+        ['/(.*)', 'CPost.PostShortLnkViewer'], #短链接
 
         ]
 

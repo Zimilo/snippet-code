@@ -7,7 +7,7 @@ from models import MPost
 from models.MLanguage import MLanguage
 from models.MMessage import MMessage
 from models import MComment
-
+import os
 
 class PostAdd:
     def GET(self):
@@ -59,7 +59,7 @@ class PostAdd:
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
         msg += "<a class='button-a' href='/post/view/"+ str(r['post_id'])  + "'>查看</a>"
-        msg += "<a class='button-a' href='/post/genimg/"+ str(r['post_id'])  + "'>生成图片</a>"
+        msg += "<a class='button-a' href='/"+ str(r['link'])  + ".png'>生成图片</a>"
         if session['UserID'] != -1:
             msg += "<a class='button-a' href='/post/edit/"+ str(r['post_id'])  + "'>编辑</a>"
             msg += "<a class='button-a' href='/post/del/"+ str(r['post_id'])  + "'>删除</a>"
@@ -111,7 +111,7 @@ class PostList:
         (posts, total_count) = MPost.Post.GetPostList(session["UserID"], page_idx - 1, GLOBAL_POST_LIST_PAGE_SIZE)
         max_page_idx = (total_count + GLOBAL_POST_LIST_PAGE_SIZE - 1) / GLOBAL_POST_LIST_PAGE_SIZE
 
-        if page_idx > max_page_idx:
+        if max_page_idx > 0 and page_idx > max_page_idx:
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "参数传递错误", [['javascript:history.go(-1)', '返回']]))
 
         return render.TPostList(posts, page_idx, max_page_idx)
@@ -271,13 +271,36 @@ class PostDel:
         
        
 class PostGenImage:
-    def GET(self, post_id):
-        return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "该功能正在开发中，敬请期待。", [['javascript:history.go(-1)', '返回之前的页面']]))
+    def GET(self, short_link):
+        if not short_link:
+            return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "参数传递错误", [['javascript:history.go(-1)', '返回之前的页面']]))
+
+        post = MPost.Post.QueryDB(short_lnk = short_link)
+
+        if not post:
+            return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
+
+        
+        filename = GLOBAL_PIC_STORE_DIRECTORY + post.link + ".png"
+
+        if not os.path.exists(filename):
+            cmd = GLOBAL_PHANTOMJS_BIN_DIRECTORY + "/phantomjs" + " " + GLOBAL_PHANTOMJS_SCRIPTS_DIRECTORY + "/rasterize.js" + " " + "http://" + GLOBAL_PROJECT_DOMAIN + "/F_" + post.link + " "+filename   
+            os.system(cmd)
+
+        f = open(filename, "r")
+        
+        web.header('Content-type', 'image/png')
+
+        data = f.read()
+
+        f.close()
+
+        return data
 
 
-class ShortLnkViewer:
+class PostShortLnkViewer:
     def GET(self, short_lnk):
-        if not len(short_lnk):
+        if not short_lnk:
             return render.TMessage("<span class='msg-error'>参数传递错误</span><br /><a href='/'>返回主页</a>")
 
         post = MPost.Post.QueryDB(short_lnk = short_lnk)
@@ -299,3 +322,23 @@ class ShortLnkViewer:
         
         return render.TPostView(post, comments)
         
+
+class PostEmbed:
+    def GET(self, short_link):
+        if not short_link:
+            return render.TMessage("<span class='msg-error'>参数传递错误</span><br /><a href='/'>返回主页</a>")
+
+        post = MPost.Post.QueryDB(short_lnk = short_link)
+
+        if not post:
+            return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
+        
+        #检查查看的权限
+        if post['priviledge'] == GLOBAL_PRIVILEDGE_PRIVATE:
+            if session['UserID'] != post['user_id']:
+                return render.TMessage("<span class='msg-error'>对不起，您没有权限查看此代码片段</span><br /><a href='/'>返回主页</a>")        
+
+        render = web.template.render('templates/')
+
+        return render.TPostEmbed(post)
+

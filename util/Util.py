@@ -4,6 +4,9 @@
 from math import floor
 from math import log10
 from math import pow
+from math import atan, degrees
+from PIL import Image, ImageDraw, ImageFont
+
 
 #@see http://www.code-trick.com/base62-php/
 class Base62:
@@ -26,8 +29,14 @@ class Base62:
         return int(out)
 
 
-if __name__ == "__main__":
-    b = Base62()
-    link = b.Encode(209000000016)
-    print link
-    print b.Decode(link)
+
+class WaterMarkBuilder:
+    def __init__(self, origin_img, text, output_img):
+        self.orgin_img = orgin_img
+        self.text = text
+        self.output_img = output_img
+        
+    def Build(self):
+        img = Image.open(origin_img).convert("RGB")
+        watermark = Image.new("RGBA", (img.size[0], img.size[1]))
+

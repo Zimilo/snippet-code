@@ -21,12 +21,13 @@ $def with(posts, cur_page_idx, max_page_idx)
       </tr>
   </table>
   <div class='page-segment-control'>
-    <a href="/post/my/$max_page_idx">最后</a>
-    $if cur_page_idx < max_page_idx:
-      <a href="/post/my/$(cur_page_idx+1)">下一页</a>    
-    $if cur_page_idx > 1:
-      <a href="/post/my/$(cur_page_idx-1)">上一页</a>  
-    <a href="/post/my/1">最前</a>  
+    $if max_page_idx > 0:
+      <a href="/post/my/$max_page_idx">最后</a>
+      $if cur_page_idx < max_page_idx:
+        <a href="/post/my/$(cur_page_idx+1)">下一页</a>    
+      $if cur_page_idx > 1:
+        <a href="/post/my/$(cur_page_idx-1)">上一页</a>  
+      <a href="/post/my/1">最前</a>  
   </div>
   <div class='clear'></div>
 </div>

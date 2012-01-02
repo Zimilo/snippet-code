@@ -25,7 +25,7 @@ class Index:
 
     	max_page_idx = (total_count + GLOBAL_POST_LIST_PAGE_SIZE - 1) / GLOBAL_POST_LIST_PAGE_SIZE
 
-    	if page_idx > max_page_idx:
+    	if max_page_idx > 0 and page_idx > max_page_idx:
         	return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "参数传递错误", [['javascript:history.go(-1)', '返回']]))
    		
 
