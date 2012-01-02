@@ -8,7 +8,7 @@ GLOBAL_PROJECT_MINOR_VERSION = "1"
 GLOBAL_PROJECT_AUTHOR = "Zimilo"
 GLOBAL_PROJECT_AUTHOR_EMAIL = "zimilo@code-trick.com"
 GLOBAL_PROJECT_DOMAIN = "snippet-code.com"
-
+GLOBAL_PROJECT_ROOT = "/Users/Zimilo/ZimiloProjects/snippet-code"
 
 #数据库相关的配置
 GLOBAL_DB_HOST        = "localhost"
