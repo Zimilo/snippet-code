@@ -8,7 +8,6 @@ GLOBAL_PROJECT_MINOR_VERSION = "1"
 GLOBAL_PROJECT_AUTHOR = "Zimilo"
 GLOBAL_PROJECT_AUTHOR_EMAIL = "zimilo@code-trick.com"
 GLOBAL_PROJECT_DOMAIN = "snippet-code.com"
-GLOBAL_PROJECT_ROOT = "/Users/Zimilo/ZimiloProjects/snippet-code"
 
 
 #数据库相关的配置
@@ -67,7 +66,7 @@ GLOBAL_POST_LIST_PAGE_SIZE = 10
 
 
 #图片生成
-GLOBAL_PIC_STORE_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/pics"
+GLOBAL_PIC_STORE_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/pics/"
 GLOBAL_PHANTOMJS_BIN_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/scripts/phantomjs-1.4.1/bin"
 GLOBAL_PHANTOMJS_SCRIPTS_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/scripts/phantomjs-1.4.1/examples"
 GLOBAL_USING_XVFB = False
