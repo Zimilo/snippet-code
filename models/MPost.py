@@ -42,7 +42,10 @@ class Post:
 
         if not post.lang:
             return False
+        
+        post.publish_time_ts = post.publish_time
         post.publish_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(post.publish_time))
+        post.last_edit_time_ts = post.last_edit_time
         post.last_edit_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(post.last_edit_time))
 
         return post

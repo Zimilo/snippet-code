@@ -191,11 +191,10 @@ class PostEdit:
 
         msg = ""
         msg += "<div style='margin-top:5px;'>"
-        msg += "还可以执行以下操作:" 
+        msg += "还可以继续执行以下操作:" 
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
         msg += "<a class='button-a' href='/post/view/"+ str(post['id'])  + "'>查看</a>"
-        msg += "<a class='button-a' href='/post/genimg/"+ str(post['id'])  + "'>生成图片</a>"
         if session['UserID'] != -1:
             msg += "<a class='button-a' href='/post/edit/"+ str(post['id'])  + "'>编辑</a>"
             msg += "<a class='button-a' href='/post/del/"+ str(post['id'])  + "'>删除</a>"
@@ -280,13 +279,23 @@ class PostGenImage:
         if not post:
             return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
 
+  
+        #检查查看的权限
+        if post['priviledge'] == GLOBAL_PRIVILEDGE_PRIVATE:
+            if session['UserID'] != post['user_id']:
+                return render.TMessage("<span class='msg-error'>对不起，您没有权限查看此代码片段</span><br /><a href='/'>返回主页</a>") 
+  
         
         filename = GLOBAL_PIC_STORE_DIRECTORY + '/' + post.link + ".gif"
 
+        regen = not os.path.exists(filename)
 
-        #return filename
+        if not regen:
+            #check the post ever be edited after the pic generated
+            st = os.stat(filename)
+            regen = regen or (int(st.st_ctime) < int(post.last_edit_time_ts))
 
-        if not os.path.exists(filename):
+        if regen:
             if GLOBAL_USING_XVFB:
                 cmd = 'xvfb-run --server-args="-screen 0, 800x600x24"'
             else:
