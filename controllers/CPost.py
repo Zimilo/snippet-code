@@ -283,9 +283,12 @@ class PostGenImage:
         
         filename = GLOBAL_PIC_STORE_DIRECTORY + '/' + post.link + ".gif"
 
+
+        #return filename
+
         if not os.path.exists(filename):
             if GLOBAL_USING_XVFB:
-                cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24"'
+                cmd = 'xvfb-run --server-args="-screen 0, 800x600x24"'
             else:
                 cmd = ""
             cmd += " " + GLOBAL_PHANTOMJS_BIN_DIRECTORY + "/phantomjs" + " " + GLOBAL_PHANTOMJS_SCRIPTS_DIRECTORY + "/rasterize.js" + " " + "http://" + GLOBAL_PROJECT_DOMAIN + "/F_" + post.link + " "+filename   
