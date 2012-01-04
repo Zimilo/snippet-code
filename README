@@ -18,8 +18,12 @@ http://snippet-code.com
 
     2. 全网的代码搜索功能
 
-    3. 在线编程环境, 
-       
-      (1)Javascript (2) Python (3) PHP (4) Ruby (5) Erlang
+    3. 在线编程环境: Javascript/Python/PHP/Ruby/Erlang
 
     4. 代码支持git版本管理
+
+    5. 代码打分功能
+
+    6. 代码支持标记Tags
+
+    7. Chrome/Firefox 扩展
