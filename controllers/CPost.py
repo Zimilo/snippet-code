@@ -58,11 +58,11 @@ class PostAdd:
         msg += "还可以执行以下操作:" 
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
-        msg += "<a class='button-a' href='/post/view/"+ str(r['post_id'])  + "'>查看</a>"
+        msg += "<a class='button-a' href='/"+ str(r['link'])  + "'>查看</a>"
         msg += "<a class='button-a' href='/"+ str(r['link'])  + ".gif'>生成图片</a>"
         if session['UserID'] != -1:
-            msg += "<a class='button-a' href='/post/edit/"+ str(r['post_id'])  + "'>编辑</a>"
-            msg += "<a class='button-a' href='/post/del/"+ str(r['post_id'])  + "'>删除</a>"
+            msg += "<a class='button-a' href='/post/edit/"+ str(r['link'])  + "'>编辑</a>"
+            msg += "<a class='button-a' href='/post/del/"+ str(r['link'])  + "'>删除</a>"
         msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
         msg += "<a class='button-a' href='/post/my'>我的代码片段</a>"
         msg += "</div>"
@@ -118,15 +118,13 @@ class PostList:
 
 
 class PostEdit:
-    def GET(self, post_id):
+    def GET(self, short_link):
         if session['UserID'] == -1:
             web.seeother("/user/login")
-        try:
-            pid = int(post_id)
-        except:
+        if not short_link:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
-        post = MPost.Post.QueryDB(post_id = pid)
+        post = MPost.Post.QueryDB(short_lnk = short_link)
 
         if post.user.id != session['UserID']:
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "您没有权限修改该代码片段", [['javascript:history.go(-1)', '返回']]))
@@ -141,32 +139,29 @@ class PostEdit:
         
         return render.TPostEditView(post, MLanguage.GetAllLangs())
         
-    def POST(self, c_id):
+    def POST(self, c_link):
         
         if session['UserID'] == -1:
             web.seeother("/user/login")
         
-        code_id = web.input()['code_id'].strip()
+        code_link = web.input()['code_link'].strip()
         code_title = web.input()['code_title'].strip()
         code_priviledge = int(web.input()['code_priviledge'].strip())
         code_content = web.input()['code_content'].strip()
         code_language_type = int(web.input()['code_language_type'].strip())
 
-        if code_id != c_id:
+        if code_link != c_link:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
-        try:
-            code_id = int(code_id)
-        except:
+        if not code_link:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
         #先检查该Post是否为当前用户所有
 
-        if not MPost.Post.CheckPostOwner(code_id, session['UserID']):
+        if not MPost.Post.CheckPostOwner(code_link, session['UserID']):
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "你没有权限修改该文章", [['javascript:history.go(-1)', '返回之前的页面']]))
         
-
-        if not len(code_content):
+        if not code_content:
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "外面PM2.5这么严重, 宅在家里至少写点代码再提交吧", [['javascript:history.go(-1)', '返回之前的页面']]))
 
         if not MLanguage.IsSupportLang(code_language_type):
@@ -176,7 +171,7 @@ class PostEdit:
             code_title = GLOBAL_DEFAULT_POST_TITLE
 
         post = {
-            'id' : code_id,
+            'link' : code_link,
             'priviledge':code_priviledge,
             'language_type':code_language_type,
             'title':code_title,
@@ -194,10 +189,10 @@ class PostEdit:
         msg += "还可以继续执行以下操作:" 
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
-        msg += "<a class='button-a' href='/post/view/"+ str(post['id'])  + "'>查看</a>"
+        msg += "<a class='button-a' href='/"+ str(post['link'])  + "'>查看</a>"
         if session['UserID'] != -1:
-            msg += "<a class='button-a' href='/post/edit/"+ str(post['id'])  + "'>编辑</a>"
-            msg += "<a class='button-a' href='/post/del/"+ str(post['id'])  + "'>删除</a>"
+            msg += "<a class='button-a' href='/post/edit/"+ str(post['link'])  + "'>编辑</a>"
+            msg += "<a class='button-a' href='/post/del/"+ str(post['link'])  + "'>删除</a>"
         msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
         msg += "<a class='button-a' href='/post/my'>我的代码片段</a>"
         msg += "</div>"
@@ -207,15 +202,13 @@ class PostEdit:
 
 
 class PostDel:
-    def GET(self, post_id):
+    def GET(self, short_link):
         if session['UserID'] == -1:
             web.seeother("/user/login")
-        try:
-            pid = int(post_id)
-        except:
+        if not short_link:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
-        post = MPost.Post.QueryDB(post_id = pid)
+        post = MPost.Post.QueryDB(short_lnk = short_link)
 
         if not post:
             return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
@@ -232,26 +225,24 @@ class PostDel:
 
         return render.TPostDelView(post)
 
-    def POST(self, post_id):
+    def POST(self, short_link):
         if session['UserID'] == -1:
             web.seeother("/user/login")
         
-        code_id = web.input()['code_id'].strip()
+        code_link = web.input()['code_link'].strip()
 
-        if code_id != post_id:
+        if code_link != short_link:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
-        try:
-            code_id = int(code_id)
-        except:
+        if not code_link:
             return render.TMessage("<span class='msg-error'>参数传递异常</span><br /><br /><a href='/'>返回主页</a>")
 
         #先检查该Post是否为当前用户所有
 
-        if not MPost.Post.CheckPostOwner(code_id, session['UserID']):
+        if not MPost.Post.CheckPostOwner(code_link, session['UserID']):
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "你没有权限修改该文章", [['javascript:history.go(-1)', '返回之前的页面']]))
         
-        r = MPost.Post.DeleteFromDBByPostID(code_id)
+        r = MPost.Post.DeleteFromDBByPostShortLink(code_link)
 
         if r['Status'] == -1:
             return render.TMessage(MMessage.ConstructCommonMessage(GLOBAL_MSG_ERROR, "操作失败: [" + r['ErrorMsg'] + "]。", [['javascript:history.go(-1)', '返回之前的页面']]))

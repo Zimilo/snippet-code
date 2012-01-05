@@ -1,6 +1,6 @@
 $def with(post, langs)
 <div>
-  <form method="post" action="/post/edit/$post.id">
+  <form method="post" action="/post/edit/$post.link">
     <fieldset>
       <legend>代码设置</legend>
       <div id="code-setting">
@@ -36,7 +36,7 @@ $def with(post, langs)
 	    <td class="code-setting-left-td"><span class="code-setting-field">标题</span></td>
 	    <td>
 	      <span class="code-setting-field-value">
-		<input name="code_id" type="hidden" value="$post.id" />
+		<input name="code_link" type="hidden" value="$post.link" />
 		<input name="code_title" class="code-setting-input" type="text" placeholder="未命名代码片段" value="$post.title"/>
 	      </span>
 	    </tdp>

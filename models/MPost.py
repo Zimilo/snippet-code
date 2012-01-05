@@ -137,7 +137,8 @@ class Post:
                             title          = post['title'],
                             content        = post['content'],
                             last_edit_time = post['last_edit_time'],
-                            where = "id=%d" % post['id'])
+                            where = "link=$link",
+                            vars = {'link':post['link']})
 
 
         r['Status'] = 0
@@ -145,21 +146,22 @@ class Post:
 
 
     @staticmethod
-    def CheckPostOwner(code_id, user_id):
-        post = Post.QueryDB(code_id)
+    def CheckPostOwner(code_link, user_id):
+        post = Post.QueryDB(short_lnk = code_link)
         if post.user_id != user_id:
             return False
         return True
 
 
     @staticmethod
-    def DeleteFromDBByPostID(code_id):
+    def DeleteFromDBByPostShortLink(code_link):
         r = {}
         r['Status'] = -1
         r['ErrorMsg'] = ""
 
         db.delete(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE, 
-                  where="id=%d" % code_id)
+                  where="link=$link",
+                  vars = {'link' : code_link})
 
         r['Status'] = 0
         return r

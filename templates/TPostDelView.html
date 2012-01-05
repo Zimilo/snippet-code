@@ -1,13 +1,13 @@
 $def with(post)
 <div>
-  <form method="post" action="/post/del/$post.id">
+  <form method="post" action="/post/del/$post.link">
       <div id="code-publish">
 	<table>
 	  <tr>
 	    <td>
 	      <span class="code-setting-field-value">
-		<input name="code_id" type="hidden" value="$post.id" />
-		确认 <span style="font-weight:bold;color:#C03;">删除</span> 代码片段 <a style="font-weight:bold" href="/post/view/$post.id">$post.title</a> 吗(此操作不可逆)?
+		<input name="code_link" type="hidden" value="$post.link" />
+		确认 <span style="font-weight:bold;color:#C03;">删除</span> 代码片段 <a style="font-weight:bold" href="/$post.link">$post.title</a> 吗(此操作不可逆)?
 		<span class="code-setting-field-value"><input class="code-setting-submit" type="submit" value="确认删除" /></span>
 		<span class="code-setting-field-value"><input class="code-setting-submit" type="submit" value="取消" onclick="javascript:return false;"/></span>
 	      </span>
