@@ -341,6 +341,9 @@ class PostShortLnkViewer:
 
 class PostEmbed:
     def GET(self, short_link):
+        if web.ctx['ip'] != '127.0.0.1':
+            return render.TMessage("<span class='msg-error'>Access Denied</span><br /><a href='/'>返回主页</a>")
+        
         if not short_link:
             return render.TMessage("<span class='msg-error'>参数传递错误</span><br /><a href='/'>返回主页</a>")
 
@@ -349,12 +352,7 @@ class PostEmbed:
         if not post:
             return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
         
-        #检查查看的权限
-        if post['priviledge'] == GLOBAL_PRIVILEDGE_PRIVATE:
-            if session['UserID'] != post['user_id']:
-                return render.TMessage("<span class='msg-error'>对不起，您没有权限查看此代码片段</span><br /><a href='/'>返回主页</a>")        
+        r = web.template.render(GLOBAL_PROJECT_ROOT + '/templates/')
 
-        render = web.template.render(GLOBAL_PROJECT_ROOT + '/templates/')
-
-        return render.TPostEmbed(post)
+        return r.TPostEmbed(post)
 
