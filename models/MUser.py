@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 import hashlib
+import time
 from config.Runtime import *
 
 class MUser:
@@ -32,7 +33,8 @@ class MUser:
         r['user_id'] = db.insert(GLOBAL_DB_PRE + GLOBAL_DB_USERS_TABLE,
                                  email=account_email, 
                                  nickname = account_nickname, 
-                                 password = hashlib.md5(account_passwd).hexdigest())
+                                 password = hashlib.md5(account_passwd).hexdigest(),
+                                 reg_time = int(time.time()))
 
         r['nickname'] = account_nickname
         r['email']    = account_email
