@@ -33,7 +33,7 @@ $def with (post, comments)
 
   <div id="post-comment-form">
     <form method="post" action="/comment/post">
-    <input type="hidden" value="$post.id" name="post_id" />
+    <input type="hidden" value="$post.link" name="post_link" />
     <table id="comment-form-table">
     <tr>
       $if ctx['UserID'] == -1:
