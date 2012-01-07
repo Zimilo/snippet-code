@@ -7,19 +7,7 @@ GLOBAL_PROJECT_MAJOR_VERSION = "0"
 GLOBAL_PROJECT_MINOR_VERSION = "1"
 GLOBAL_PROJECT_AUTHOR = "Zimilo"
 GLOBAL_PROJECT_AUTHOR_EMAIL = "zimilo@code-trick.com"
-GLOBAL_PROJECT_DOMAIN = "snippet-code.com"
-GLOBAL_PROJECT_ROOT = "/Users/Zimilo/ZimiloProjects/snippet-code"
 
-#数据库相关的配置
-GLOBAL_DB_HOST        = "localhost"
-GLOBAL_DB_PORT        = 3306
-GLOBAL_DB_USER        = "zJiXU"
-GLOBAL_DB_PASSWD      = "iUpIUY"
-GLOBAL_DB_DB          = "snippet"
-GLOBAL_DB_PRE         = "snippet_"
-GLOBAL_DB_POSTS_TABLE = "posts"
-GLOBAL_DB_USERS_TABLE = "users"
-GLOBAL_DB_COMMENTS_TABLE = "comments"
 
 #系统支持的语言类型的配置
 GLOBAL_LANGUAGES = [
@@ -63,10 +51,3 @@ GLOBAL_MSG_WARNING = 1
 #代码片段列表分页相关数量
 GLOBAL_POST_LIST_PAGE_SIZE = 10
 
-
-
-#图片生成
-GLOBAL_PIC_STORE_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/pics/"
-GLOBAL_PHANTOMJS_BIN_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/scripts/phantomjs-1.4.1/bin"
-GLOBAL_PHANTOMJS_SCRIPTS_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/scripts/phantomjs-1.4.1/examples"
-GLOBAL_USING_XVFB = False

@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+#coding:utf-8
+
+ENABLE_DEBUG = True
+DEPLOY_MODE= "FASTCGI"
+
+#项目相关的信息
+GLOBAL_PROJECT_DOMAIN = "snippet-code.com"
+GLOBAL_PROJECT_ROOT = "/Users/Zimilo/ZimiloProjects/snippet-code"
+
+#数据库相关的配置
+GLOBAL_DB_HOST        = "localhost"
+GLOBAL_DB_PORT        = 3306
+GLOBAL_DB_USER        = "zJiXU"
+GLOBAL_DB_PASSWD      = "iUpIUY"
+GLOBAL_DB_DB          = "snippet"
+GLOBAL_DB_PRE         = "snippet_"
+GLOBAL_DB_POSTS_TABLE = "posts"
+GLOBAL_DB_USERS_TABLE = "users"
+GLOBAL_DB_COMMENTS_TABLE = "comments"
+
+
+#图片生成
+GLOBAL_PIC_STORE_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/pics/"
+GLOBAL_PHANTOMJS_BIN_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/scripts/phantomjs-1.4.1/bin"
+GLOBAL_PHANTOMJS_SCRIPTS_DIRECTORY = "/Users/Zimilo/ZimiloProjects/snippet-code/scripts/phantomjs-1.4.1/examples"
+GLOBAL_USING_XVFB = False

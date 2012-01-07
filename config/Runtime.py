@@ -3,9 +3,9 @@
 import web
 from config.Router import *
 from config.Globals import *
+from config.Setting import *
 
-web.config.debug = True
-
+web.config.debug = ENABLE_DEBUG
 
 if web.config.get('_app') is None:
     app = web.application(Router(), globals())

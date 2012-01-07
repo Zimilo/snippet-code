@@ -20,6 +20,8 @@ def Router():
         ['/(.*).gif', 'CPost.PostGenImage'],
         ['/post/view/(.*)',   'CPost.PostView'],
 
+        ['/(.*).js', 'CPost.PostJSEmbed'], #嵌入代码支持
+
         ['/online_dev', 'CLab.Lab'], #在线编程
 
         ['/comment/post', 'CComment.CommentPost'],

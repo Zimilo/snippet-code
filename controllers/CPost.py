@@ -58,11 +58,11 @@ class PostAdd:
         msg += "还可以执行以下操作:" 
         msg += "</div>"
         msg += "<div style='margin-top:5px;'>"
-        msg += "<a class='button-a' href='/"+ str(r['link'])  + "'>查看</a>"
-        msg += "<a class='button-a' href='/"+ str(r['link'])  + ".gif'>生成图片</a>"
+        msg += "<a class='button-a' href='/"+ r['link']  + "'>查看</a>"
+        msg += "<a class='button-a' href='/"+ r['link']  + ".gif'>生成图片</a>"
         if session['UserID'] != -1:
-            msg += "<a class='button-a' href='/post/edit/"+ str(r['link'])  + "'>编辑</a>"
-            msg += "<a class='button-a' href='/post/del/"+ str(r['link'])  + "'>删除</a>"
+            msg += "<a class='button-a' href='/post/edit/"+ r['link'] + "'>编辑</a>"
+            msg += "<a class='button-a' href='/post/del/"+ r['link'] + "'>删除</a>"
         msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
         msg += "<a class='button-a' href='/post/my'>我的代码片段</a>"
         msg += "</div>"
@@ -191,8 +191,8 @@ class PostEdit:
         msg += "<div style='margin-top:5px;'>"
         msg += "<a class='button-a' href='/"+ str(post['link'])  + "'>查看</a>"
         if session['UserID'] != -1:
-            msg += "<a class='button-a' href='/post/edit/"+ str(post['link'])  + "'>编辑</a>"
-            msg += "<a class='button-a' href='/post/del/"+ str(post['link'])  + "'>删除</a>"
+            msg += "<a class='button-a' href='/post/edit/"+ post['link'] + "'>编辑</a>"
+            msg += "<a class='button-a' href='/post/del/"+ post['link'] + "'>删除</a>"
         msg += "<a class='button-a' href='/post/add' target='_blank'>新建代码片段</a>"
         msg += "<a class='button-a' href='/post/my'>我的代码片段</a>"
         msg += "</div>"
@@ -347,3 +347,17 @@ class PostEmbed:
 
         return r.TPostEmbed(post)
 
+
+
+class PostJSEmbed:
+    def GET(self, short_link):
+        if not short_link:
+            return render.TMessage("<span class='msg-error'>参数传递错误</span><br /><a href='/'>返回主页</a>")
+
+        post = MPost.Post.QueryDB(short_lnk = short_link)
+
+        if not post:
+            return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
+        
+        r = web.template.render(GLOBAL_PROJECT_ROOT + '/templates/')
+        return r.TPostJSEmbed(post)
