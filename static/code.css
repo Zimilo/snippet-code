@@ -114,19 +114,19 @@ body{
     font:normal 12px/28px Arial,Helvetica,sans-serif;
     padding:.3em 0 .3em 0;
 }
-#page-tip{
+.page-tip{
     background:#FFFFE6;
     font:normal 12px/28px Arial,Helvetica,sans-serif;
     margin:10px 10px 10px 10px;
     height:40px;
     line-height:40px;
 }
-#page-tip span{
+.page-tip span{
     background:#FFFFE6 url("/static/images/notice.png") no-repeat 2px;
     padding-left:25px;
     margin-left:3px;
 }
-#page-tip a{
+.page-tip a{
     text-decoration:none;
     font-weight:bold;
     color:#C03;
@@ -357,23 +357,15 @@ legend{
 .post-comment-content{
     padding-left:30px;font-style:italic;
 }
-#more-control{
+#lab-table td{
+    height:30px;
+    line-height:30px;
     background:#F8F8F8;
+    padding:2px 5px 2px 5px;
+}
+.control-button{
     height:30px;
     line-height:30px;
     text-align:center;
-    margin-top:15px;
     border:1px solid #CCC;
-}
-#more-control a{
-    text-decoration:none;
-    color:#333;
-    font-size:16px;
-    font-weight:bold;
-    font-style:italic;
-    display:block;
-    width:100%;
-}
-#more-control a:hover{
-    background:#E3E3E3;
 }
