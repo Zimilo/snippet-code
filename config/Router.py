@@ -25,8 +25,9 @@ def Router():
         ['/online_dev', 'CLab.Lab'], #在线编程
 
         ['/comment/post', 'CComment.CommentPost'],
-
-
+        
+        ['/about', 'CAbout.About'],
+                
         ['/F_(.*)', 'CPost.PostEmbed'],
 
         ['/(.*)', 'CPost.PostShortLnkViewer'], #短链接
