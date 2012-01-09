@@ -78,13 +78,15 @@ class Post:
                                offset = params['offset'],
                                limit  = params['count']))
 
+        posts = list(db.query("select P.id,P.link,P.user_id,P.priviledge,P.language_type,P.title,P.content,P.publish_time,P.last_edit_time,U.email,U.nickname from %s as P join %s U where P.user_id = U.id AND %s ORDER BY %s LIMIT %d, %d" 
+                                % (GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE, GLOBAL_DB_PRE + GLOBAL_DB_USERS_TABLE, 
+                                    params['where'], params['order'], params['offset'],params['count'])
+                            ))
+
         for post in posts:
             post.lang = MLanguage.Query(post.language_type)[2]
             post.publish_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(post.publish_time))
             post.last_edit_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(post.last_edit_time))
-            if post.user_id != -1:
-                post.user = MUser.GetUserByAccountID(post.user_id)
-
 
         post_count = db.query("SELECT COUNT(*) AS TotalCount FROM " + GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE + " WHERE " + params['where'])
 

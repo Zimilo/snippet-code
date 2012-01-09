@@ -16,7 +16,7 @@ $def with(posts, cur_page_idx, max_page_idx)
 	  $if post['user_id'] == -1:
 	    Guest
 	  $else:
-	    <a href="/user/profile/$post['user_id']">$post.user['nickname']</a>
+	    <a href="/user/profile/$post['user_id']">$post['nickname']</a>
 	</td>
 	<td class="td4">$post['publish_time']</td>
       </tr>

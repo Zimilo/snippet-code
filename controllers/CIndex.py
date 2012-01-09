@@ -23,6 +23,7 @@ class Index:
 
     	(posts, total_count) = MPost.Post.GetPosts(params)
 
+
     	max_page_idx = (total_count + GLOBAL_POST_LIST_PAGE_SIZE - 1) / GLOBAL_POST_LIST_PAGE_SIZE
 
     	if max_page_idx > 0 and page_idx > max_page_idx:
