@@ -167,3 +167,9 @@ class Post:
 
         r['Status'] = 0
         return r
+
+
+    @staticmethod
+    def Like(short_lnk):
+        db.query("UPDATE %s SET like_times = like_times + 1 WHERE link=$link" % (GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE), vars = {'link':short_lnk})
+        return True

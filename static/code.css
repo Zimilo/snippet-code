@@ -250,6 +250,7 @@ legend{
     height:24px;
     text-align:center;
     padding:1px 7px 1px 7px;
+    font-weight:bold;
 }
 #post-content{
     margin-top:50px;

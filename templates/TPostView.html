@@ -16,17 +16,12 @@ $var title = post.title
     语言类型 <a href="/search/lang=$post['lang']">$post['lang']</a> 
   </div>
   <div id="post-control">
+    <a href="/post/like/$post['link']">赞+1</a>
     <a href="/${post['link']}.gif">生成图片</a>
     <!--<a href="javascript:show_embed_code('$post.link')">显示嵌入代码</a>-->
     $if ctx["UserID"] != -1 and ctx['UserID'] == post.user_id:
       <a href="/post/edit/$post['link']">编辑</a>
       <a href="/post/del/$post['link']">删除</a>
-    <!-- JiaThis Button BEGIN -->
-    <div id="ckepop">
-      <a style="background:white;" href="http://www.jiathis.com/share" class="jiathis jiathis_txt" target="_blank"><img src="http://v2.jiathis.com/code_mini/images/btn/v1/jiathis1.gif" border="0" /></a>
-    </div>
-    <script type="text/javascript" src="http://v2.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
-    <!-- JiaThis Button END -->
   </div>
   <div id="post-content">
     <pre><code class="$post['lang_type']">$post['content']</code></pre>

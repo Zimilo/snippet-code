@@ -361,3 +361,20 @@ class PostJSEmbed:
         
         r = web.template.render(GLOBAL_PROJECT_ROOT + '/templates/')
         return r.TPostJSEmbed(post)
+
+
+
+class PostLike:
+    def GET(self, short_link):
+        if not short_link:
+            return render.TMessage("<span class='msg-error'>参数传递错误</span><br /><a href='/'>返回主页</a>")
+        
+        post = MPost.Post.QueryDB(short_lnk = short_link)
+        if not post:
+            return render.TMessage("<span class='msg-error'>失败: [查看该代码片段发生异常]</span><br /><a href='/'>返回主页</a>")
+        
+        if not MPost.Post.Like(short_lnk = short_link):
+            return render.TMessage("<span class='msg-error'>失败: [发生异常]</span><br /><a href='/'>返回主页</a>")
+        else:
+            return render.TMessage("<span class='msg-success'>成功对该代码片段发出<b>赞</b>的评价!</span><br /><a href='javascript:history.go(-1);'>返回</a>")
+        return 11

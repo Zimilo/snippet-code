@@ -13,6 +13,7 @@ def Router():
         ['/post/add',         'CPost.PostAdd'],
         ['/post/edit/(.*)',   'CPost.PostEdit'],
         ['/post/del/(.*)',    'CPost.PostDel'],
+        ['/post/like/(.*)',   'CPost.PostLike'],
         
         ['/post/my',          'CPost.PostList'], #设置默认列表分页
         ['/post/my/(.*)',    'CPost.PostList'],
