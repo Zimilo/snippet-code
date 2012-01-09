@@ -78,7 +78,7 @@ class Post:
                                offset = params['offset'],
                                limit  = params['count']))
 
-        posts = list(db.query("select P.id,P.link,P.user_id,P.priviledge,P.language_type,P.title,P.content,P.publish_time,P.last_edit_time,U.email,U.nickname from %s as P left join %s U on P.user_id = U.id AND %s ORDER BY %s LIMIT %d, %d" 
+        posts = list(db.query("select P.id,P.link,P.user_id,P.priviledge,P.language_type,P.title,P.content,P.publish_time,P.last_edit_time,U.email,U.nickname from %s as P left join %s U on P.user_id = U.id WHERE %s ORDER BY %s LIMIT %d, %d" 
                                 % (GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE, GLOBAL_DB_PRE + GLOBAL_DB_USERS_TABLE, 
                                     params['where'], params['order'], params['offset'],params['count'])
                             ))
