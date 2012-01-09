@@ -2,7 +2,10 @@ $def with(content)
 <!doctype html>
 <html>
 <head>
-<title>贴代码|分享代码|代码搜索|评注代码</title>
+<title>
+$if hasattr(content,'title'):
+    $content.title - 
+贴代码|分享代码|代码搜索|评注代码</title>
 <meta name="Keywords" content="贴代码，分享代码，代码搜索，评注代码" />
 <meta name="Description" content="提供全面的贴代码，分享代码，代码搜索，评注代码的服务。" />
 <link rel="stylesheet" type="text/css" href="/static/code.css" />

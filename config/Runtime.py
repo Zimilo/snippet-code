@@ -20,7 +20,7 @@ else:
     session = web.config._session
 
 if web.config.get('_render') is None:
-    render = web.template.render(GLOBAL_PROJECT_ROOT + '/templates/', base='TLayout', globals={'ctx':web.config._session, 'client':web.ctx})
+    render = web.template.render(GLOBAL_PROJECT_ROOT + '/templates/', base='TLayout', globals={'ctx':web.config._session, 'client':web.ctx, 'hasattr':hasattr})
     web.config._render = render
 else:
     render = web.config._render
