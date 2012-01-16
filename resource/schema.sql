@@ -8,7 +8,7 @@ CREATE TABLE users (
 
 CREATE TABLE posts (
  id INT PRIMARY KEY AUTO_INCREMENT,
- link VARCHAR(8),
+ link VARCHAR(8) BINARY,
  user_id INTEGER,
  priviledge INTEGER,
  language_type INTEGER,
