@@ -18,7 +18,6 @@ ziack_hashtable_equalfunc(void         *key,
 			  void         *key2,
 			  ziack_size_t  key2_size);
 
-
 ziack_hashtable_key_t *
 ziack_hashtable_key_create(void        *key,
 			   ziack_size_t key_size);

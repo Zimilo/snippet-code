@@ -26,7 +26,6 @@ typedef struct __ZIACK_RECORD {
 } ziack_record_t;
 
 
-/* BEGIN HASHTABLE TYPES DEFINITIONS */
 typedef struct __ZIACK_HASHTABLE_KEY {
   ziack_size_t  key_size;
   char          key[0];
@@ -46,7 +45,13 @@ typedef struct __ZIACK_HASHTABLE {
   uint32_t (*hashfunc)(void *key, ziack_size_t key_size);
   ziack_rc_t (*key_equal_func)(void *key, ziack_size_t key_size, void *value, ziack_size_t value_size);
 } ziack_hashtable_t;
-/* END HASHTABLE TYPES DEFINITIONS */
+
+typedef struct __ZIACK_HASHTABLE_ITER {
+  ziack_hashtable_t       *h;
+  ziack_hashtable_entry_t *entry;
+  ziack_hashtable_entry_t *entry_parent;
+  ziack_size_t             idx;
+} ziack_hashtable_iter_t;
 
 
 typedef struct __ZIACK_VECTOR {
@@ -71,7 +76,6 @@ typedef struct __ZIACK_HINT_VERSION {
 } ziack_hint_version_t;
 
 typedef struct __ZIACK_HINT_VALUE {
-  ziack_size_t    count;
   ziack_size_t    base;
   ziack_vector_t *versions;
 } ziack_hint_value_t;
@@ -82,8 +86,9 @@ typedef struct __ZIACK_HINT {
 
 typedef struct __ZIACK_HINT_KEY {
   ziack_size_t  key_size;
-  void         *key;
+  char          key[0];
 } ziack_hint_key_t;
+
 /* END HINT TYPES DEFINITIONS */
 
 #endif // __ZIACK_HINT_TYPES_H__

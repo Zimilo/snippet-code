@@ -3,15 +3,17 @@
 #include "ziack_memory.h"
 #include "ziack_tests.h"
 #include "ziack_vector.h"
+#include <time.h>
+#include <fcntl.h>
 
 ziack_hint_key_t *
 ziack_hint_key_create(void        *key,
 		      ziack_size_t key_size)
 {
-  ziack_hint_key_t *hk = (ziack_hint_key_t *)ziack_calloc(1, sizeof(ziack_hint_key_t));
+  ziack_hint_key_t *hk = (ziack_hint_key_t *)ziack_calloc(1, sizeof(ziack_hint_key_t) + key_size);
   if (NULL == hk) return NULL;
   hk->key_size = key_size;
-  hk->key = key;
+  memcpy(hk->key, key, key_size);
   return hk;
 }
 
@@ -27,8 +29,8 @@ ziack_hint_value_create()
 {
   ziack_hint_value_t *value = (ziack_hint_value_t *)ziack_calloc(1, sizeof(ziack_hint_value_t));
   if (NULL == value) return NULL;
-  value->count = 0;
-  value->versions = ziack_vector_create();
+  value->base = 0;
+  value->versions = ziack_vector_create(0);
   if (NULL == value->versions) return NULL;
   return value;
 }
@@ -50,7 +52,8 @@ ziack_hint_value_free_func(void *v)
 ziack_hint_version_t *
 ziack_hint_version_create()
 {
-  return NULL;
+  ziack_hint_version_t *version = (ziack_hint_version_t *)ziack_calloc(1, sizeof(ziack_hint_version_t));
+  return (version != NULL) ? version : NULL;
 }
 
 ziack_hint_t *
@@ -67,6 +70,7 @@ ziack_hint_t *
 ziack_hint_create_from_file(const char   *file_name,
 			    ziack_flag_t flags)
 {
+  //@todo
   return NULL;
 }
 
@@ -81,6 +85,15 @@ ziack_rc_t
 ziack_hint_dump2file(ziack_hint_t *hint, 
 		     const char   *file_name) 
 {
+  int fd = open(file_name, O_APPEND | O_WRONLY | O_CREAT, 0666);
+  if (-1 == fd) return ZIACK_RC_FILE_ERROR;
+  uint64_t magic_number = ZIACK_HINT_FILE_MAGIC_NUMBER;
+  write(fd, &magic_number, sizeof(magic_number));
+  ziack_size_t count = ziack_hashtable_count(hint->hints);
+  write(fd, &count, sizeof(count));
+  //@todo iterator the hashtable
+  write(fd, &magic_number, sizeof(magic_number));
+  close(fd);
   return ZIACK_RC_OK;
 }
 
@@ -99,7 +112,6 @@ ziack_hint_add_version(ziack_hint_t         *hint,
     hint_value = (ziack_hint_value_t *)value;    
   }
   ziack_vector_push(hint_value->versions, version);
-  ++(hint_value->count);
   return ZIACK_RC_OK;
 }
 
@@ -110,9 +122,10 @@ ziack_hint_lookup_version(ziack_hint_t     *hint,
 {
   ziack_hint_value_t *v = ziack_hint_lookup(hint, key);
   if (v == NULL) return NULL;
-  if (v->count == 0 || (vidx >= v->base + v->count) || vidx < v->base) return NULL;
+  ziack_size_t count = ziack_vector_count(v->versions);
+  if (count == 0 || (vidx >= v->base + count) || vidx < v->base) return NULL;
   ziack_vector_t *versions = v->versions;
-  return ziack_vector_index(versions, vidx);
+  return ziack_vector_index(versions, vidx - v->base);
 }
 
 ziack_rc_t
@@ -170,8 +183,7 @@ ziack_hint_update(ziack_hint_t       *hint,
 }
 
 
-#if 1
-
+#if 0
 int
 main(int argc, char **argv) 
 {
@@ -181,12 +193,44 @@ main(int argc, char **argv)
   ziack_hint_value_t *value = ziack_hint_value_create();
   ziack_hint_add(hint, key, value);
   ziack_hint_version_t *version = ziack_hint_version_create();
+  time_t t1 = time(NULL);
+  version->ts = t1;
+  version->fidx = 0;
+  version->offset = 0;
+  version->size = 1000;
+  
+  ziack_hint_version_t *version2 = ziack_hint_version_create();
+  time_t t2 = time(NULL);
+  version2->ts = t2;
+  version2->fidx = 0;
+  version2->offset = 1000;
+  version2->size = 2000;
+  
   ziack_hint_add_version(hint, key, version);
+  ziack_hint_add_version(hint, key, version2);
+
+  ziack_hint_version_t *v = ziack_hint_lookup_version(hint, key, 0);
+  ziack_assert(v->ts == t1);
+  ziack_assert(v->fidx == 0);
+  ziack_assert(v->offset == 0);
+  ziack_assert(v->size == 1000);
+
+  v = ziack_hint_lookup_version(hint, key, 1);
+  ziack_assert(v->ts == t2);
+  ziack_assert(v->fidx == 0);
+  ziack_assert(v->offset == 1000);
+  ziack_assert(v->size == 2000);
+
+  v = ziack_hint_lookup_version(hint, key, 10);
+  ziack_assert(v == NULL);
+
   ziack_hint_key_destroy(key);
   ziack_hint_dump2file(hint, "./hints");
-  ziack_hint_destroy(hint);
 
-  //hint = ziack_hint_create_from_file("./hints", 0);
-  //ziack_hint_destroy(hint);
+  ziack_hint_destroy(hint);
+  hint = ziack_hint_create_from_file("./hints", 0);
+  if (hint != NULL) {
+    ziack_hint_destroy(hint);
+  }
 }
 #endif 

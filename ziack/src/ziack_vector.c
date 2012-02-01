@@ -73,9 +73,10 @@ ziack_vector_destroy(ziack_vector_t *vec,
 		     void (*vector_free_func)(void *))
 {
   if (vec->data != NULL) {
-    for (ziack_size_t i = 0; i < vec->count; ++i) {
+    ziack_size_t i = 0;
+    for (; i < vec->count; ++i) {
       if (vector_free_func != NULL) {
-	vector_free_func(vec->data + i * sizeof(char *));
+	vector_free_func(vec->data[i]);
       }
     }
     ziack_free(vec->data);

@@ -3,6 +3,7 @@
  */
 
 #include "ziack_hashtable.h"
+#include "ziack_hashtable_iter.h"
 #include "ziack_memory.h"
 #include "ziack_tests.h"
 
@@ -13,7 +14,8 @@ ziack_hashtable_hashfunc(void        *key,
   char *ptr = (char *)key;
   uint32_t hash = 0;
   uint32_t x	= 0;
-  for (ziack_size_t i = 0; i < key_size; ++i) {
+  ziack_size_t i = 0;
+  for (; i < key_size; ++i) {
     hash = (hash << 4) + (*ptr++);
     if ((x = hash & 0xF0000000L) != 0)
       {
@@ -166,7 +168,8 @@ ziack_hashtable_destroy(ziack_hashtable_t *h,
 			void (*ziack_entry_value_free_func)(void *))
 {
   ziack_hashtable_entry_t *entry = NULL;
-  for (ziack_size_t i = 0; i < h->bucket_count; ++i) {
+  ziack_size_t i = 0;
+  for (; i < h->bucket_count; ++i) {
     entry = h->buckets[i];
     while (entry != NULL) {
       h->buckets[i] = entry->next;
@@ -192,7 +195,8 @@ ziack_hashtable_expand(ziack_hashtable_t *h,
   if (new_buckets == NULL) return ZIACK_RC_OOM;
   if (NULL == new_buckets) return ZIACK_RC_OOM;
   ziack_hashtable_entry_t *entry = NULL;
-  for (ziack_size_t i = 0; i < h->bucket_count; ++i) {
+  ziack_size_t i = 0;
+  for (; i < h->bucket_count; ++i) {
     while (NULL != (entry = h->buckets[i])) {
       h->buckets[i] = entry->next;
       uint32_t index = entry->hash % new_size;
@@ -214,7 +218,7 @@ ziack_hashtable_compact(ziack_hashtable_t *h,
   return ZIACK_RC_OK;
 }
 
-#if 0
+#if 1
 int 
 main(int argc, char **argv)
 {
@@ -230,17 +234,29 @@ main(int argc, char **argv)
   ziack_assert(ziack_hashtable_bucket_count(h) == 100);
 
   // T3
-  char *k = "zimilo", *v = "SampleData"; 
+  char *k = "zimilo", *v = "SampleData", *k2 = "ziack", *v2 = "ZiackNoSql"; 
   ziack_hashtable_key_t *key = ziack_hashtable_key_create(k, strlen(k));
   ziack_hashtable_add(h, key, v);
   ziack_assert(ziack_hashtable_count(h) == 1);
-
+  
+  ziack_hashtable_key_t *key2 = ziack_hashtable_key_create(k2, strlen(k2));
+  ziack_hashtable_add(h, key2, v2);
+  ziack_assert(ziack_hashtable_count(h) == 2);
+  
+  ziack_hashtable_iter_t *it = ziack_hashtable_iter_create(h);
+  while (it->entry != NULL) {
+    void *value = ziack_hashtable_iter_get_value(it);
+    ziack_assert((memcmp(value, v, strlen(v)) == 0) || (memcmp(value, v2, strlen(v2)) == 0));
+    if (ziack_hashtable_iter_next(it) == ZIACK_RC_ITER_GUARDER) 
+      break;
+  }
+  ziack_hashtable_iter_destroy(it);
+  
   // T4
   void *value = ziack_hashtable_delete(h, key);
-  ziack_assert(ziack_hashtable_count(h) == 0);
-
+  ziack_assert(ziack_hashtable_count(h) == 1);
+  
   ziack_hashtable_destroy(h, NULL);
 }
 #endif
-
 
