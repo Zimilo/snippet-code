@@ -8,35 +8,61 @@
 #include "ziack_config.h"
 #include "ziack_types.h"
 
+uint32_t
+ziack_hashtable_hashfunc(void        *key,
+			 ziack_size_t key_size);
+
+ziack_rc_t
+ziack_hashtable_equalfunc(void         *key,
+			  ziack_size_t  key_size,
+			  void         *key2,
+			  ziack_size_t  key2_size);
+
+
+ziack_hashtable_key_t *
+ziack_hashtable_key_create(void        *key,
+			   ziack_size_t key_size);
+
+ziack_rc_t
+ziack_hashtable_key_destroy(ziack_hashtable_key_t *key);
+
+
 ziack_hashtable_t *
 ziack_hashtable_create(ziack_size_t min_size,
 		       uint32_t (*hashfunc)(void *key, ziack_size_t key_size),
-		       int (*key_equal_func)(void *key, ziack_size_t key_size, void *key2, ziack_size_t key2_size));
+		       ziack_rc_t (*key_equal_func)(void *key, ziack_size_t key_size, void *key2, ziack_size_t key2_size));
+
+ziack_rc_t
+ziack_hashtable_reserve(ziack_hashtable_t *h,
+			ziack_size_t       bucket_count);
 
 ziack_rc_t
 ziack_hashtable_add(ziack_hashtable_t       *h,
 		    ziack_hashtable_key_t   *key,
-		    ziack_hashtable_value_t *value);
+		    void                    *value);
 
-ziack_hashtable_data_t *
+void *
 ziack_hashtable_delete(ziack_hashtable_t     *h,
 		       ziack_hashtable_key_t *key);
 
 ziack_rc_t
-ziack_hashtable_update(ziack_hashtable_t *h,
-		       ziack_hashtable_t *key,
-		       ziack_hashtable_t *value);
+ziack_hashtable_update(ziack_hashtable_t       *h,
+		       ziack_hashtable_key_t   *key,
+		       void                    *value);
 
-ziack_hashtable_data_t *
+void *
 ziack_hashtable_lookup(ziack_hashtable_t     *h,
 		       ziack_hashtable_key_t *key);
 
 ziack_size_t
 ziack_hashtable_count(ziack_hashtable_t *h);
 
+ziack_size_t
+ziack_hashtable_bucket_count(ziack_hashtable_t *h);
+
 void
 ziack_hashtable_destroy(ziack_hashtable_t *h,
-			ziack_flag_t      flag);
+			void (*ziack_entry_value_free_func)(void *));
 
 ziack_rc_t
 ziack_hashtable_expand(ziack_hashtable_t *h,

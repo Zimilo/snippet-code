@@ -1,7 +1,0 @@
-service TSZiack {
-  bool zget(1:string key);
-  bool zget_by_version(1:string key, 2:i32 version);
-  bool zset(1:string key);
-  bool zdel(1:string key);
-  bool zdiff(1:string key, 2:i32 v1, 3:i32 v2);
-}
