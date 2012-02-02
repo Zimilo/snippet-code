@@ -218,7 +218,7 @@ ziack_hashtable_compact(ziack_hashtable_t *h,
   return ZIACK_RC_OK;
 }
 
-#if 1
+#if 0
 int 
 main(int argc, char **argv)
 {
@@ -244,7 +244,7 @@ main(int argc, char **argv)
   ziack_assert(ziack_hashtable_count(h) == 2);
   
   ziack_hashtable_iter_t *it = ziack_hashtable_iter_create(h);
-  while (it->entry != NULL) {
+  while (ziack_hashtable_iter_valid(it)) {
     void *value = ziack_hashtable_iter_get_value(it);
     ziack_assert((memcmp(value, v, strlen(v)) == 0) || (memcmp(value, v2, strlen(v2)) == 0));
     if (ziack_hashtable_iter_next(it) == ZIACK_RC_ITER_GUARDER) 

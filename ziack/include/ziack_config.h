@@ -7,6 +7,8 @@
 #include <inttypes.h>
 #include <string.h>
 
+#define _FILE_OFFSET_BITS 64
+
 typedef uint32_t ziack_size_t;
 typedef uint32_t ziack_flag_t;
 

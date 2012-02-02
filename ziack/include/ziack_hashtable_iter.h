@@ -11,6 +11,9 @@
 ziack_hashtable_iter_t *
 ziack_hashtable_iter_create(ziack_hashtable_t *h);
 
+ziack_bool_t
+ziack_hashtable_iter_valid(ziack_hashtable_iter_t *it);
+
 ziack_hashtable_key_t *
 ziack_hashtable_iter_get_key(ziack_hashtable_iter_t *it);
 

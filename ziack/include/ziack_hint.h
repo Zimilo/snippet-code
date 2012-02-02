@@ -30,24 +30,6 @@ ziack_hint_value_free_func(void *v);
 ziack_hint_t *
 ziack_hint_create(ziack_flag_t flags);
 
-
-/**
- Hint File Format
- MagicNumber(uint64_t)
- Count(ziack_size_t)
- {
-     KeySize(ziack_size_t)
-     Key(char [])
-     VersionBase(ziack_size_t)
-     VersionCount(ziack_size_t)
-     {
-         V1
-	 ...
-	 Vn
-     }
- }
- FooterMagicNumber(uint64_t)
- */
 ziack_hint_t *
 ziack_hint_create_from_file(const char   *file_name,
 			    ziack_flag_t  flags);
@@ -56,7 +38,7 @@ ziack_rc_t
 ziack_hint_destroy(ziack_hint_t *hint);
 
 ziack_rc_t 
-ziack_hint_dump2file(ziack_hint_t *hint, 
+ziack_hint_dump_to_file(ziack_hint_t *hint, 
 		     const char   *file_name);
 
 ziack_rc_t 

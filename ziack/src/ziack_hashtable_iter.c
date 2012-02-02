@@ -7,6 +7,7 @@
 #include "ziack_memory.h"
 #include "ziack_tests.h"
 
+
 ziack_hashtable_iter_t *
 ziack_hashtable_iter_create(ziack_hashtable_t *h)
 {
@@ -26,6 +27,12 @@ ziack_hashtable_iter_create(ziack_hashtable_t *h)
     }
   }
   return it;
+}
+
+ziack_bool_t
+ziack_hashtable_iter_valid(ziack_hashtable_iter_t *it)
+{
+  return (it->entry == NULL && it->idx == it->h->bucket_count) ? ZIACK_FALSE : ZIACK_TRUE;
 }
 
 ziack_hashtable_key_t *
