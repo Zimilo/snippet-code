@@ -93,6 +93,20 @@ ziack_vector_index(ziack_vector_t *vec,
   return vec->data[vidx];
 }
 
+void
+ziack_vector_print(ziack_vector_t *vec,
+		   void (*ziack_vector_value_print_func)(void *v))
+{
+  ziack_size_t i;
+  for (i = 0; i < vec->count; ++i) {
+    if (ziack_vector_value_print_func != NULL) {
+      printf("##########################\n");
+      ziack_vector_value_print_func(vec->data[i]);
+      printf("##########################\n");
+    }
+  }
+}
+
 #if 0
 int 
 main(int argc, char **argv)

@@ -218,6 +218,21 @@ ziack_hashtable_compact(ziack_hashtable_t *h,
   return ZIACK_RC_OK;
 }
 
+void
+ziack_hashtable_print(ziack_hashtable_t *h,
+		      void (*ziack_hashtable_value_print_func)(void *))
+{
+  ziack_hashtable_iter_t *it = ziack_hashtable_iter_create(h);
+  while (ziack_hashtable_iter_valid(it)) {
+    void *value = ziack_hashtable_iter_get_value(it);
+    printf("---------------KEY[%s]---------------\n", ziack_hashtable_iter_get_key(it)->key);
+    if (ziack_hashtable_value_print_func != NULL)
+      ziack_hashtable_value_print_func(value);
+    if (ziack_hashtable_iter_next(it) == ZIACK_RC_ITER_GUARDER) break;
+  }
+  ziack_hashtable_iter_destroy(it);
+}
+
 #if 0
 int 
 main(int argc, char **argv)

@@ -1,3 +1,7 @@
+/**
+ * zimilo@code-trick.com
+ */
+
 #include "ziack_hint.h"
 #include "ziack_hashtable.h"
 #include "ziack_hashtable_iter.h"
@@ -6,7 +10,6 @@
 #include "ziack_vector.h"
 #include <time.h>
 #include <fcntl.h>
-
 
 ziack_hint_key_t *
 ziack_hint_key_create(void        *key,
@@ -128,7 +131,7 @@ ziack_hint_destroy(ziack_hint_t *hint)
 
 ziack_rc_t 
 ziack_hint_dump_to_file(ziack_hint_t *hint, 
-		     const char   *file_name) 
+			const char   *file_name) 
 {
   int fd = open(file_name, O_WRONLY | O_CREAT, 0666);
   if (-1 == fd) return ZIACK_RC_FILE_ERROR;
@@ -246,6 +249,31 @@ ziack_hint_update(ziack_hint_t       *hint,
   return rc;
 }
 
+void
+ziack_hint_version_print_func(void *v)
+{
+  ziack_hint_version_t *version = (ziack_hint_version_t *)v;
+  printf("\t\tflags:%d\n", (int)version->flags);
+  printf("\t\tts:%d\n", (int)version->ts);
+  printf("\t\tfidx:%d\n", (int)version->fidx);
+  printf("\t\toffset:%d\n", (int)version->offset);
+  printf("\t\tsize:%d\n", (int)version->size);
+}
+
+void
+ziack_hint_value_print_func(void *v)
+{
+  ziack_hint_value_t *value = (ziack_hint_value_t *)v;
+  printf("BaseVersion:%d\n", value->base);
+  printf("Count:%d\n", ziack_vector_count(value->versions));
+  ziack_vector_print(value->versions, ziack_hint_version_print_func);
+}
+
+void
+ziack_hint_print(ziack_hint_t *hint)
+{
+  ziack_hashtable_print(hint->hints, ziack_hint_value_print_func);
+}
 
 #if 1
 int
@@ -307,6 +335,8 @@ main(int argc, char **argv)
 
   v = ziack_hint_lookup_version(hint, key, 10);
   ziack_assert(v == NULL);
+
+  ziack_hint_print(hint);
 
   ziack_hint_key_destroy(key);
   ziack_hint_destroy(hint);

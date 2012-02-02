@@ -37,4 +37,8 @@ void *
 ziack_vector_index(ziack_vector_t *vec,
 		   ziack_size_t    vidx);
 
+void
+ziack_vector_print(ziack_vector_t *vec,
+		   void (*ziack_vector_value_print_func)(void *v));
+
 #endif // !__ZIACK_VECTOR_H__

@@ -70,4 +70,7 @@ ziack_hashtable_expand(ziack_hashtable_t *h,
 ziack_rc_t
 ziack_hashtable_compact(ziack_hashtable_t *h, ziack_flag_t flags);
 
+void
+ziack_hashtable_print(ziack_hashtable_t *h,
+		      void (*ziack_hashtable_value_print_func)(void *));
 #endif // !__ZIACK_HASHTABLE_H__
