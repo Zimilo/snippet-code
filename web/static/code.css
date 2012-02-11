@@ -235,6 +235,7 @@ legend{
 }
 #post-control {
     margin-top:6px;
+    float:left;
 }
 #post-control a{
     margin-right:10px;
@@ -253,8 +254,8 @@ legend{
     font-weight:bold;
 }
 #post-content{
-    margin-top:50px;
-    margin-bottom:30px;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 #post-comment-form{
     border:1px solid #ccc;
@@ -369,4 +370,14 @@ legend{
     line-height:30px;
     text-align:center;
     border:1px solid #CCC;
+}
+.post-google-ad{
+    clear:both;
+    margin-bottom:10px;
+    margin-top:10px;
+}
+#author-related-posts li{
+    padding-left:10px;
+    line-height:18px;
+    font-style:italic;
 }

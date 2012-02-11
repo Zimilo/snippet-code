@@ -52,6 +52,15 @@ class Post:
 
 
     @staticmethod
+    def GetRelatedPosts(user_id, excluse_id):
+        posts = list(db.select(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE,
+                               where = "user_id = %d AND id != %d" % (user_id, excluse_id),
+                               order = "publish_time DESC",
+                               limit = 3))
+    
+        return posts
+
+    @staticmethod
     def GetPostList(user_id, offset, limit):
         posts = list(db.select(GLOBAL_DB_PRE + GLOBAL_DB_POSTS_TABLE,
                                where = "user_id = %d" % user_id,

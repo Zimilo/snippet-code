@@ -1,4 +1,4 @@
-$def with (post, comments)
+$def with (post, comments, author_related_posts)
 $var title = post.title
 <div>
   <div id="post-title">
@@ -18,15 +18,42 @@ $var title = post.title
   <div id="post-control">
     <a href="/post/like/$post['link']">赞+1</a>
     <a href="/${post['link']}.gif">生成图片</a>
-    <!--<a href="javascript:show_embed_code('$post.link')">显示嵌入代码</a>-->
     $if ctx["UserID"] != -1 and ctx['UserID'] == post.user_id:
       <a href="/post/edit/$post['link']">编辑</a>
       <a href="/post/del/$post['link']">删除</a>
   </div>
+  <div style="clear:both;"></div>
+
+  <div class="post-google-ad">
+    <script type="text/javascript">
+      <!--
+       google_ad_client = "ca-pub-3027351066831089";
+       /* 长条广告 */
+       google_ad_slot = "4203448337";
+       google_ad_width = 728;
+       google_ad_height = 90;
+     //-->
+    </script>
+    <script type="text/javascript"
+	    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+  </div>
+
   <div id="post-content">
     <pre><code class="$post['lang_type']">$post['content']</code></pre>
   </div>
 
+  $if post.user_id != -1 and len(author_related_posts):
+    <div id="author-related-posts">
+      <p><b>该作者的更多代码片段</b></p>
+      <p>
+	<ul>
+	  $for op in author_related_posts:
+	    <li><a href="/$op.link">$op.title</a></li>
+	</ul>
+      </p>
+    </div>
+  
   $for comment in comments:
     <div class="post-comment">
       <p class="post-comment-meta"><b>$comment.user_name</b> 于 <b>$comment.publish_time</b> 发表评论</p>

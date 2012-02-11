@@ -86,14 +86,11 @@ class PostView:
         if post['priviledge'] == GLOBAL_PRIVILEDGE_PRIVATE:
             if session['UserID'] != post['user_id']:
                 return render.TMessage("<span class='msg-error'>对不起，您没有权限查看此代码片段</span><br /><a href='/'>返回主页</a>")
-        
-
 
         comments = MComment.Comment.QueryDB(post_id=pid)
 
         if not comments:
             comments = []
-
 
         return render.TPostView(post, comments)
 
@@ -326,8 +323,8 @@ class PostShortLnkViewer:
         if not comments:
             comments = []
 
-        
-        return render.TPostView(post, comments)
+        author_related_posts = MPost.Post.GetRelatedPosts(post.user_id, post.id)
+        return render.TPostView(post, comments, author_related_posts)
         
 
 class PostEmbed:
