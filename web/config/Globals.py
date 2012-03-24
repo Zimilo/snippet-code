@@ -28,6 +28,7 @@ GLOBAL_LANGUAGES = [
     [14,  "lisp",    "Lisp"],
     [15,  "bash",    "Bash"],
     [16,  "haskell", "Haskell"],
+    [17,  "go",      "Go"],
     [999, "Others", "其它" ]
     ]
 
